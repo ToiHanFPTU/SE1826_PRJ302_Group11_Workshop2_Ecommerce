@@ -8,7 +8,6 @@ public class User {
     private String password;
     private String phone;
 
-    // Constructor
     public User(String userID, String fullName, String roleID, String password, String phone) {
         this.userID = userID;
         this.fullName = fullName;
@@ -17,7 +16,6 @@ public class User {
         this.phone = phone;
     }
 
-    // Getter and Setter
     public String getUserID() {
         return userID;
     }
@@ -58,15 +56,8 @@ public class User {
         this.phone = phone;
     }
 
-    // Optional: toString for debugging
     @Override
     public String toString() {
-        return "User{"
-                + "userID='" + userID + '\''
-                + ", fullName='" + fullName + '\''
-                + ", roleID='" + roleID + '\''
-                + ", password='" + password + '\''
-                + ", phone='" + phone + '\''
-                + '}';
+        return userID + "," + fullName + "," + roleID + "," + password + "," + phone;
     }
 }
