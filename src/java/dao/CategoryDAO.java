@@ -25,7 +25,7 @@ public class CategoryDAO extends utils {
                 categories.add(new Category(categoryID, categoryName, description));
             }
         } catch (SQLException e) {
-            System.out.println("Error");
+            System.out.println("Error to connect database");
         }
         closeConnection();
         return categories;
@@ -41,6 +41,7 @@ public class CategoryDAO extends utils {
         getConnection();
         try {
             preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setObject(1, keyword);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int categoryID = resultSet.getInt("categoryID");
@@ -49,7 +50,7 @@ public class CategoryDAO extends utils {
                 categorys.add(new Category(categoryID, categoryName, description));
             }
         } catch (SQLException e) {
-            System.out.println("Error");
+            System.out.println("Error to connect database");
         }
         closeConnection();
         return categorys;
@@ -68,7 +69,7 @@ public class CategoryDAO extends utils {
             preparedStatement.setObject(2, category.getDescription());
             isInserted = preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("Error");
+            System.out.println("Error to connect database");
         }
         closeConnection();
         return isInserted;
@@ -88,7 +89,7 @@ public class CategoryDAO extends utils {
             preparedStatement.setObject(3, category.getCategoryID());
             isUpdated = preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("Error");
+            System.out.println("Error to connect database");
         }
         closeConnection();
         return isUpdated;
@@ -104,7 +105,7 @@ public class CategoryDAO extends utils {
             preparedStatement.setObject(1, categotyID);
             isDeleted = preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("Error");
+            System.out.println("Error to connect database");
         }
         closeConnection();
         return isDeleted;
