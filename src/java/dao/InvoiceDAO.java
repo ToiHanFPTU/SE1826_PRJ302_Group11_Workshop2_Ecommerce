@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import DBUtils.utils;
@@ -12,10 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Invoice;
 
-/**
- *
- * @author Log
- */
 public class InvoiceDAO extends utils{
     public void createInvoice(Invoice invoice){
         String sql = "INSERT INTO tblInvoices(userID, totalAmount, status, createDate) VALUES(?, ?, ?, ?);"

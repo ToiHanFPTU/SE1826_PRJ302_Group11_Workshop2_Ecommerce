@@ -162,14 +162,65 @@ public class UserDAO extends utils {
     }
 
     public boolean isDuplicatePassword(String newPassword) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<User> users = listAllUser();
+        for (User user : users) {
+            if (user.getUserID().equalsIgnoreCase(newPassword)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean updatePasswordByID(String newPassword, String userID) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "UPDATE [dbo].[tblUsers]\n"
+                + "   SET [password] = ?\n"
+                + " WHERE [userID] = ?";
+        boolean isUpdated = false;
+        getConnection();
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setObject(1, newPassword);
+            preparedStatement.setObject(2, userID);
+            isUpdated = preparedStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+        }
+        closeConnection();
+        return isUpdated;
     }
 
-    public User getUserByIDOrPhone(String IDOrPhone) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public User getUserByIDOrPhone(String keyword) {
+        User user = null;
+        String sql = "SELECT [userID], [fullName], [roleID], [password], [phone] "
+                + "FROM [dbo].[tblUsers] WHERE [userID] = ? OR [phone] = ?";
+        getConnection();
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, keyword);
+            preparedStatement.setString(2, keyword);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                user = new User(
+                        resultSet.getString("userID"),
+                        resultSet.getString("fullName"),
+                        resultSet.getString("roleID"),
+                        resultSet.getString("password"),
+                        resultSet.getString("phone")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection();
+        }
+        return user;
+    }
+    public boolean isDuplicateUserID(String userID){
+        List<User> users = listAllUser();
+        for (User user : users) {
+            if (user.getUserID().equalsIgnoreCase(userID)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

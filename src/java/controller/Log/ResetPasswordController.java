@@ -22,7 +22,7 @@ public class ResetPasswordController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //lấy user để check user có quyền vô trang này không
-        User user = (User) request.getAttribute("user");
+        User user = (User) request.getSession().getAttribute("user");
         //nếu chưa đăng nhập và vô trang này thì sẽ bị đá ra trang login.jsp
         if (user == null) {
             request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -53,6 +53,12 @@ public class ResetPasswordController extends HttpServlet {
             request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
             return;
         }
+        if (newPassword == null || confirmPassword == null || newPassword.isEmpty() || confirmPassword.isEmpty()) {
+            request.setAttribute("msg", "Password fields cannot be empty");
+            request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
+            return;
+        }
+
         //thực hiện việc update
         if (new UserDAO().updatePasswordByID(newPassword, userID)) {
             System.out.println("Update thành công");
