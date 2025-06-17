@@ -13,25 +13,22 @@ public class UserDAO extends utils {
             throws ClassNotFoundException, SQLException {
         System.out.println("UserDAO.login(): userID=" + userID + ", password=" + password);
 
-        String sql = "SELECT fullName, roleID, phone FROM tblUsers WHERE userID = ? AND password = ?";
+        String sql = "SELECT fullName, roleID FROM tblUsers WHERE userID = ? AND password = ?";
         try {
             getConnection();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, userID);
             preparedStatement.setString(2, password);
-            try {
-                resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    String fullName = resultSet.getString("fullName");
-                    String roleID = resultSet.getString("roleID");
-                    String phone = resultSet.getString("phone");
-                    System.out.println("Login successful for " + userID + ", fullName=" + fullName + ", roleID=" + roleID + ", phone=" + phone);
+            try ( ResultSet rs = preparedStatement.executeQuery()) {
+                if (rs.next()) {
+                    String fullName = rs.getString("fullName");
+                    String roleID = rs.getString("roleID");
+                    String phone = rs.getString("phone");
+                    System.out.println("Login successful for " + userID + ", fullName=" + fullName + ", roleID=" + roleID);
                     return new User(userID, fullName, roleID, password, phone);
                 } else {
                     System.out.println("Login failed: no matching record");
                 }
-            } catch (SQLException e) {
-                System.out.println("Error");
             }
         } catch (SQLException e) {
             System.out.println("Error");
@@ -52,14 +49,12 @@ public class UserDAO extends utils {
         try {
             preparedStatement = connection.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                String userID = resultSet.getString("userID");
-                String fullName = resultSet.getString("fullName");
-                String roleID = resultSet.getString("roleID");
-                String password = resultSet.getString("password");
-                String phone = resultSet.getString("phone");
-                users.add(new User(userID, fullName, roleID, password, phone));
-            }
+            String userID = resultSet.getString("userID");
+            String fullName = resultSet.getString("fullName");
+            String roleID = resultSet.getString("roleID");
+            String password = resultSet.getString("password");
+            String phone = resultSet.getString("phone");
+            users.add(new User(userID, fullName, roleID, password, phone));
         } catch (SQLException e) {
             System.out.println("Error");
         }
@@ -84,7 +79,7 @@ public class UserDAO extends utils {
             preparedStatement.setObject(3, user.getRoleID());
             preparedStatement.setObject(4, user.getPassword());
             preparedStatement.setObject(5, user.getPhone());
-            isInserted = preparedStatement.executeUpdate() > 0;
+            isInserted = preparedStatement.executeLargeUpdate() > 0;
 
         } catch (SQLException e) {
             System.out.println("Error");
@@ -127,7 +122,7 @@ public class UserDAO extends utils {
             preparedStatement.setObject(3, user.getPassword());
             preparedStatement.setObject(4, user.getPhone());
             preparedStatement.setObject(5, user.getUserID());
-            isUpdated = preparedStatement.executeUpdate() > 0;
+            isUpdated = preparedStatement.executeLargeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println("Error");
         }
@@ -164,5 +159,17 @@ public class UserDAO extends utils {
         }
         closeConnection();
         return users;
+    }
+
+    public boolean isDuplicatePassword(String newPassword) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public boolean updatePasswordByID(String newPassword, String userID) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public User getUserByIDOrPhone(String IDOrPhone) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

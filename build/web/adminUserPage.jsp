@@ -1,3 +1,9 @@
+<%-- 
+    Document   : userPage
+    Created on : Jun 3, 2025, 11:05:55 AM
+    Author     : HP
+--%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="model.User"%>
@@ -105,8 +111,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items="${userList}" var="user" varStatus="record">
-                        <tr>
+                <c:forEach items="${userList}" var="user" varStatus="record">
+                    <tr>
                     <form action="UserController" method="POST">
                         <!-- No: dùng để đến số dùng -->
                         <td>

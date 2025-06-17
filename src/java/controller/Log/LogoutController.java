@@ -1,4 +1,4 @@
-package controller;
+package controller.Log;
 
 import java.io.IOException;
 import jakarta.servlet.ServletException;

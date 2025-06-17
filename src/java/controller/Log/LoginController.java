@@ -1,24 +1,39 @@
-package controller;
+package controller.Log;
 
 import dao.UserDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.User;
 
-@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
 public class LoginController extends HttpServlet {
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try ( PrintWriter out = response.getWriter()) {
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet LoginController</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("login.jsp");
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -37,8 +52,7 @@ public class LoginController extends HttpServlet {
                 System.out.println("Found: " + userLogin.toString());
                 HttpSession session = request.getSession();
                 session.setAttribute("user", userLogin);
-                //chưa biết nền forward đến đâu
-                response.sendRedirect(request.getContextPath() + "/UserController?action=search");
+                response.sendRedirect(request.getContextPath() + "/StockController?action=SearchStock");
             }
         } catch (Exception e) {
             e.printStackTrace();
