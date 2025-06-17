@@ -31,7 +31,7 @@ public class ForgotPasswordController extends HttpServlet {
         else {
             System.out.println("đã tìm thấy user");
             System.out.println(userFound.toString());
-            request.setAttribute("user", userFound);
+            request.getSession().setAttribute("user", userFound);
             request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
         }
     }

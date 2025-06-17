@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="text-center">
-                        <span class="small">Don't have an account? <a href="register.jsp">Sign Up</a></span>
+                        <span class="small">Don't have an account? <a href="signUp.jsp">Sign Up</a></span>
                     </div>
                 </form>
             </div>
