@@ -1,6 +1,8 @@
 package dao;
 
 import DBUtils.utils;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ public class UserDAO extends utils {
             throws ClassNotFoundException, SQLException {
         System.out.println("UserDAO.login(): userID=" + userID + ", password=" + password);
 
-        String sql = "SELECT fullName, roleID FROM tblUsers WHERE userID = ? AND password = ?";
+        String sql = "SELECT fullName, roleID, phone FROM tblUsers WHERE userID = ? AND password = ?";
         try {
             getConnection();
             preparedStatement = connection.prepareStatement(sql);
@@ -39,26 +41,22 @@ public class UserDAO extends utils {
 
     public List<User> listAllUser() {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT [userID]\n"
-                + "      ,[fullName]\n"
-                + "      ,[roleID]\n"
-                + "      ,[password]\n"
-                + "      ,[phone]\n"
-                + "  FROM [dbo].[tblUsers]";
-        getConnection();
-        try {
-            preparedStatement = connection.prepareStatement(sql);
-            resultSet = preparedStatement.executeQuery();
-            String userID = resultSet.getString("userID");
-            String fullName = resultSet.getString("fullName");
-            String roleID = resultSet.getString("roleID");
-            String password = resultSet.getString("password");
-            String phone = resultSet.getString("phone");
-            users.add(new User(userID, fullName, roleID, password, phone));
+        String sql = "SELECT [userID], [fullName], [roleID], [password], [phone] FROM [dbo].[tblUsers]";
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) { // Iterate through each row in the ResultSet
+                String userID = rs.getString("userID");
+                String fullName = rs.getString("fullName");
+                String roleID = rs.getString("roleID");
+                String password = rs.getString("password");
+                String phone = rs.getString("phone");
+                users.add(new User(userID, fullName, roleID, password, phone));
+            }
         } catch (SQLException e) {
-            System.out.println("Error");
+            System.err.println("Error listing all users: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
         }
-        closeConnection();
         return users;
     }
 
@@ -79,7 +77,7 @@ public class UserDAO extends utils {
             preparedStatement.setObject(3, user.getRoleID());
             preparedStatement.setObject(4, user.getPassword());
             preparedStatement.setObject(5, user.getPhone());
-            isInserted = preparedStatement.executeLargeUpdate() > 0;
+            isInserted = preparedStatement.executeUpdate()> 0;
 
         } catch (SQLException e) {
             System.out.println("Error");
@@ -122,7 +120,7 @@ public class UserDAO extends utils {
             preparedStatement.setObject(3, user.getPassword());
             preparedStatement.setObject(4, user.getPhone());
             preparedStatement.setObject(5, user.getUserID());
-            isUpdated = preparedStatement.executeLargeUpdate() > 0;
+            isUpdated = preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println("Error");
         }
@@ -132,32 +130,30 @@ public class UserDAO extends utils {
 
     public List<User> searchUser(String keyword) {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT [userID]\n"
-                + "      ,[fullName]\n"
-                + "      ,[roleID]\n"
-                + "      ,[password]\n"
-                + "      ,[phone]\n"
-                + "  FROM [dbo].[tblUsers]\n"
-                + "  WHERE [userID]  = ? OR [roleID] = ? OR [fullName] LIKE ?";
-        getConnection();
-        try {
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, keyword);
-            preparedStatement.setString(2, keyword);
-            preparedStatement.setString(3, "%" + keyword + "%");
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                String userID = resultSet.getString("userID");
-                String fullName = resultSet.getString("fullName");
-                String roleID = resultSet.getString("roleID");
-                String password = resultSet.getString("password");
-                String phone = resultSet.getString("phone");
-                users.add(new User(userID, fullName, roleID, password, phone));
+        String sql = "SELECT [userID], [fullName], [roleID], [password], [phone] "
+                + "FROM [dbo].[tblUsers] "
+                + "WHERE [userID] = ? OR [roleID] = ? OR [fullName] LIKE ?";
+
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, keyword);
+            ps.setString(2, keyword);
+            ps.setString(3, "%" + keyword + "%");
+
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String userID = rs.getString("userID");
+                    String fullName = rs.getString("fullName");
+                    String roleID = rs.getString("roleID");
+                    String password = rs.getString("password");
+                    String phone = rs.getString("phone");
+
+                    users.add(new User(userID, fullName, roleID, password, phone));
+                }
             }
         } catch (SQLException e) {
-            System.out.println("Error");
+            e.printStackTrace();
         }
-        closeConnection();
         return users;
     }
 
@@ -214,7 +210,8 @@ public class UserDAO extends utils {
         }
         return user;
     }
-    public boolean isDuplicateUserID(String userID){
+
+    public boolean isDuplicateUserID(String userID) {
         List<User> users = listAllUser();
         for (User user : users) {
             if (user.getUserID().equalsIgnoreCase(userID)) {

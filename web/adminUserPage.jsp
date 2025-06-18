@@ -1,12 +1,7 @@
-<%-- 
-    Document   : userPage
-    Created on : Jun 3, 2025, 11:05:55 AM
-    Author     : HP
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="model.User"%>
+<%@ page import="dao.UserDAO"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,13 +11,12 @@
 
     <body>
         <!--phân quyền của user nếu user có quyền admin thì mới được xem trang này-->
-        <% 
-            User user = (User) session.getAttribute("user");
-            if (!user.getRoleID().equalsIgnoreCase("ad")) {
-                response.sendRedirect("checkAuthorized.jsp");
-                return;
-            }
-        
+        <%
+    User user = (User) session.getAttribute("user");
+    if (user == null || !user.getRoleID().equalsIgnoreCase("ad")) {
+        response.sendRedirect("checkAuthorized.jsp");
+        return;
+    }
         %>
 
 
@@ -50,7 +44,7 @@
                     <h2>Search User</h2>
                     <!-- form để search -->
 
-                    <form action="UserController?action=search" method="post">
+                    <form action="SearchUserController" method="post">
                         <!-- chỗ nhập tên để search -->
                         <input type="text" name="searchBox" placeholder="Enter user name">
                         <!-- nút submit -->
@@ -58,45 +52,7 @@
                     </form>
                 </div>
             </div>
-            <button onclick="addUser()" class="addButton">Add</button>
-            <!--form để insert user-->
-            <form action="UserController?action=insert" id="form-insert" style="display: none" class="form-container" method="post">
-                <h2 class="insertHeader">Insert new user</h2>
-                <table>
-                    <tr>
-                        <td>User ID</td>
-                        <td>
-                            <input type="text" name="userIDInsert" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Full Name</td>
-                        <td>
-                            <input type="text" name="fullNameInsert" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Role ID</td>
-                        <td>
-                            <input type="text" name="roleIDInsert" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Password</td>
-                        <td><input type="password" name="passwordInsert" required></td>
-                    </tr>
-                    <tr>
-                        <td>Phone</td>
-                        <td><input type="tel" name="phoneInsert" required></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <button type="submit" name="submitForm">Add User</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
+            <a href="addUserPage.jsp">Add new User</a>
             <!-- List user -->
             <table>
                 <thead>
@@ -111,8 +67,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${userList}" var="user" varStatus="record">
-                    <tr>
+                    <c:forEach items="${userList}" var="user" varStatus="record">
+                        <tr>
                     <form action="UserController" method="POST">
                         <!-- No: dùng để đến số dùng -->
                         <td>
@@ -141,8 +97,11 @@
                         </td>
                         <%--Hành độngc ảu người dùng--%>
                         <td class="actions">
-                            <button type="submit" name="action" value="update">Update</button>
-                            <button type="submit" name="action" value="remove">Delete</button>
+                            <form action="UserController" method="post">
+                                <input type="hidden" name="userID" value="${user.userID}">
+                                <button type="submit" name="action" value="update">Update</button>
+                                <button type="submit" name="action" value="remove">Delete</button>
+                            </form>
                         </td>
                     </form>
                     </tr>
