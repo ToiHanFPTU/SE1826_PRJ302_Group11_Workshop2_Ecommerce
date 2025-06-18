@@ -150,4 +150,30 @@ public class ProductDAO extends utils {
         closeConnection();
         return isUpdated;
     }
+    public Product getProductByID(int id) {
+    String sql = "SELECT [productID], [name], [categoryID], [price], [quantity], [sellerID], [status] "
+               + "FROM [dbo].[tblProducts] WHERE [productID] = ?";
+    Product product = null;
+    getConnection();
+    try {
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, id);
+        resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            int productID = resultSet.getInt("productID");
+            String name = resultSet.getString("name");
+            int categoryID = resultSet.getInt("categoryID");
+            double price = resultSet.getDouble("price");
+            int quantity = resultSet.getInt("quantity");
+            String sellerID = resultSet.getString("sellerID");
+            String status = resultSet.getString("status");
+            product = new Product(productID, name, categoryID, price, quantity, sellerID, status);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    closeConnection();
+    return product;
+}
+
 }
