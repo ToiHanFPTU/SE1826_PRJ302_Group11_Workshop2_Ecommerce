@@ -111,17 +111,6 @@
     </table>
     <p class="alert" hidden>${msg}</p>
     <script>
-        function displayForm() {
-            let form = document.querySelector("#form-insert");
-            if (form.style.display === 'none') {
-                form.style.display = 'block';
-            } else {
-                form.style.display = 'none';
-            }
-        }
-        function addUser() {
-            displayForm();
-        }
         window.addEventListener('DOMContentLoaded', function () {
             const alertBox = document.querySelector(".alert");
             const message = alertBox?.textContent?.trim();

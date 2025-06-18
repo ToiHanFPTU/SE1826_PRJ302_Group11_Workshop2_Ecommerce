@@ -31,7 +31,7 @@ public class CategoryDAO extends utils {
         return categories;
     }
 
-    public List<Category> findCategoriesByName(String keyword) {
+    public List<Category> findCategoriesByName(String name) {
         List<Category> categorys = new ArrayList<>();
         String sql = "SELECT [categoryID]\n"
                 + "      ,[categoryName]\n"
@@ -41,7 +41,7 @@ public class CategoryDAO extends utils {
         getConnection();
         try {
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setObject(1, keyword);
+            preparedStatement.setObject(1, "%" + name + "%");
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int categoryID = resultSet.getInt("categoryID");
