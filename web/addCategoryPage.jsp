@@ -11,7 +11,7 @@
             <h1>Insert New Category</h1>
             <a href="CategoryController?action=search">Back</a>
         </div>
-        <form action="CategoryController?action=insert">
+        <form action="CategoryController?action=insert" method="post">
             <table>
                 <tr>
                     <td>Category name</td>

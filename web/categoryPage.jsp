@@ -35,6 +35,7 @@
             </form>
         </div>
         <h2>Categories List</h2>
+        <a href="CategoryController?action=insert">Add New Category</a>
         <table>
             <thead>
                 <tr>
@@ -47,7 +48,7 @@
             <tbody>
                 <c:forEach items="${categoryList}" var="cate">
                     <tr>
-                        <<form action="CategoryController">
+                <form action="CategoryController">
                     <td>
                         <input type="text" name="categoryID" value="${cate.categoryID}" readonly required />
                     </td>
@@ -55,10 +56,10 @@
                         <input type="text" name="categoryName" value="${cate.categoryName}" required />
                     </td>
                     <td>
-                        <textarea type="text" name="categoryDescription" value="${cate.description}" required></textarea>
+                        <textarea type="text" name="categoryDescription" required>${cate.description.trim()}</textarea>
                     </td>
                     <td>
-                        <form action="CategoryController">
+                        <form action="CategoryController" method="post">
                             <input
                                 type="hidden"
                                 name="categoryID"

@@ -37,7 +37,7 @@ public class LoginController extends HttpServlet {
                 System.out.println("Found: " + userLogin.toString());
                 HttpSession session = request.getSession();
                 session.setAttribute("user", userLogin);
-                response.sendRedirect(request.getContextPath() + "/UserController?action=search");
+                response.sendRedirect(request.getContextPath() + "/CategoryController?action=search");
             }
         } catch (Exception e) {
             e.printStackTrace();

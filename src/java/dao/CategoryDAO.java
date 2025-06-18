@@ -110,4 +110,28 @@ public class CategoryDAO extends utils {
         closeConnection();
         return isDeleted;
     }
+
+    public Category getCategoryByID(int categoryID) {
+        Category category = null;
+        String sql = "SELECT [categoryID]\n"
+                + "      ,[categoryName]\n"
+                + "      ,[description]\n"
+                + "  FROM [ECommerceDB].[dbo].[tblCategories]\n"
+                + "  WHERE [categoryID] = ?";
+        getConnection();
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setObject(1, categoryID);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String categoryName = resultSet.getString("categoryName");
+                String description = resultSet.getString("description");
+                category = new Category(categoryID, categoryName, description);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        closeConnection();
+        return category;
+    }
 }

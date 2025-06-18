@@ -34,13 +34,13 @@ public class CategoryController extends HttpServlet {
                     url = SEARCH_CATEGORY_CONTROLLER;
                     break;
                 case DELETE_CATEGORY:
-                    url = SEARCH_CATEGORY_CONTROLLER;
+                    url = DELETE_CATEGORY_CONTROLLER;
                     break;
                 case INSERT_CATEGORY:
-                    url = SEARCH_CATEGORY_CONTROLLER;
+                    url = INSERT_CATEGORY_CONTROLLER;
                     break;
                 case UPDATE_CATEGORY:
-                    url = SEARCH_CATEGORY_CONTROLLER;
+                    url = UPDATE_CATEGORY_CONTROLLER;
                     break;
                 default:
                     throw new AssertionError();
