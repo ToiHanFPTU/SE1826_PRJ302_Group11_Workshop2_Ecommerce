@@ -9,13 +9,13 @@
 <%@ page import="model.Product" %>
 <%@ page import="dao.ProductDAO" %>
 <%
-    // Lấy userID từ session
-    String userID = (String) session.getAttribute("userID");
-    if(userID == null){
-        response.sendRedirect("login.jsp");
-        return;
+    // Lấy user từ session
+    User user = (User) session.getAttribute("user");
+    
+    if(user == null || !user.getRoleID().equalsIgnoreCase("bu")){
+     response.sendRedirect("checkAuthorized.jsp");
+     return;
     }
-
     // Lấy danh sách sản phẩm
     ProductDAO dao = new ProductDAO();
     List<Product> list = dao.listAllProducts();
@@ -27,7 +27,7 @@
     <title>Product List</title>
 </head>
 <body>
-    <h2>Welcome, <%= userID %>!</h2>
+    <h2>Welcome, <%= user.getFullName()%>!</h2>
     <h3>Product List</h3>
     <table border="1" cellpadding="10">
         <tr>
