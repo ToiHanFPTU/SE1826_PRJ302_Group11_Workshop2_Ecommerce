@@ -74,7 +74,8 @@ public class AddCartController extends HttpServlet {
     throws ServletException, IOException {
         HttpSession session = request.getSession();
         String userID = (String)session.getAttribute("userID");
-        if(userID == null){response.sendRedirect("login.jsp");
+        if(userID == null){
+            response.sendRedirect("login.jsp");
         }
         try{
             int productID = Integer.parseInt(request.getParameter("productID"));
@@ -89,7 +90,7 @@ public class AddCartController extends HttpServlet {
             response.sendRedirect("productList.jsp");
         }catch (Exception e){
             e.printStackTrace();
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("error.jsp");
         }
     }
 
