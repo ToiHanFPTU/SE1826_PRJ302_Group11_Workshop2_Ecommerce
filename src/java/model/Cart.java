@@ -20,6 +20,13 @@ public class Cart{
     public Cart() {
     }
 
+    public Cart(String userID, Date createDate, int productID, int quantity) {
+        this.userID = userID;
+        this.createDate = createDate;
+        this.productID = productID;
+        this.quantity = quantity;
+    }
+
     public Cart(int cartID, String userID, Date createDate, int productID, int quantity) {
         this.cartID = cartID;
         this.userID = userID;
@@ -67,5 +74,9 @@ public class Cart{
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    
+    @Override
+    public String toString() {
+    return "Cart{" + "cartID=" + cartID + ", userID=" + userID + ", createDate=" + createDate
+           + ", productID=" + productID + ", quantity=" + quantity + '}';
+    }
 }
