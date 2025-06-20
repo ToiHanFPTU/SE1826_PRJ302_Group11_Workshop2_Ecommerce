@@ -41,29 +41,34 @@ public class ProductDAO extends utils {
     }
 
     public List<Product> findProduct(String keyword, double minPrice, double maxPrice) {
-        String sql = "SELECT [productID]\n"
-                + "      ,[name]\n"
-                + "      ,pro.[categoryID]\n"
-                + "      ,[price]\n"
-                + "      ,[quantity]\n"
-                + "      ,[sellerID]\n"
-                + "      ,[status]\n"
-                + "  FROM [dbo].[tblProducts] pro\n"
-                + "  JOIN [dbo].[tblCategories] cat\n"
-                + "  ON pro.[categoryID] = cat.[categoryID]\n"
-                + "  WHERE pro.[name] LIKE ?\n"
-                + "  OR cat.[categoryName] LIKE ?\n"
-                + "  OR pro.[status] = ?\n"
-                + "  OR pro.[price] BETWEEN ? AND ?";
+        String sql;
         List<Product> products = new ArrayList<>();
         getConnection();
+
         try {
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setObject(1, "%" + keyword + "%");
-            preparedStatement.setObject(2, "%" + keyword + "%");
-            preparedStatement.setObject(3, "%" + keyword + "%");
-            preparedStatement.setObject(4, minPrice);
-            preparedStatement.setObject(5, maxPrice);
+            if (minPrice > 0 && maxPrice > 0 && minPrice < maxPrice) {
+                sql = "SELECT [productID], [name], pro.[categoryID], [price], [quantity], [sellerID], [status] "
+                        + "FROM [dbo].[tblProducts] pro "
+                        + "JOIN [dbo].[tblCategories] cat ON pro.[categoryID] = cat.[categoryID] "
+                        + "WHERE (pro.[name] LIKE ? OR cat.[categoryName] LIKE ? OR pro.[status] LIKE ?) "
+                        + "AND pro.[price] BETWEEN ? AND ?";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, "%" + keyword + "%");
+                preparedStatement.setString(2, "%" + keyword + "%");
+                preparedStatement.setString(3, "%" + keyword + "%");
+                preparedStatement.setDouble(4, minPrice);
+                preparedStatement.setDouble(5, maxPrice);
+            } else {
+                sql = "SELECT [productID], [name], pro.[categoryID], [price], [quantity], [sellerID], [status] "
+                        + "FROM [dbo].[tblProducts] pro "
+                        + "JOIN [dbo].[tblCategories] cat ON pro.[categoryID] = cat.[categoryID] "
+                        + "WHERE pro.[name] LIKE ? OR cat.[categoryName] LIKE ? OR pro.[status] LIKE ?";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, "%" + keyword + "%");
+                preparedStatement.setString(2, "%" + keyword + "%");
+                preparedStatement.setString(3, "%" + keyword + "%");
+            }
+
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int productID = resultSet.getInt("productID");
@@ -73,12 +78,15 @@ public class ProductDAO extends utils {
                 int quantity = resultSet.getInt("quantity");
                 String sellerID = resultSet.getString("sellerID");
                 String status = resultSet.getString("status");
+
                 products.add(new Product(productID, name, categoryID, price, quantity, sellerID, status));
             }
         } catch (SQLException e) {
-            System.out.println("Error to connect database");
+            System.out.println("Error when accessing database: " + e.getMessage());
+        } finally {
+            closeConnection();
         }
-        closeConnection();
+
         return products;
     }
 
@@ -150,30 +158,30 @@ public class ProductDAO extends utils {
         closeConnection();
         return isUpdated;
     }
-    public Product getProductByID(int id) {
-    String sql = "SELECT [productID], [name], [categoryID], [price], [quantity], [sellerID], [status] "
-               + "FROM [dbo].[tblProducts] WHERE [productID] = ?";
-    Product product = null;
-    getConnection();
-    try {
-        preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1, id);
-        resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()) {
-            int productID = resultSet.getInt("productID");
-            String name = resultSet.getString("name");
-            int categoryID = resultSet.getInt("categoryID");
-            double price = resultSet.getDouble("price");
-            int quantity = resultSet.getInt("quantity");
-            String sellerID = resultSet.getString("sellerID");
-            String status = resultSet.getString("status");
-            product = new Product(productID, name, categoryID, price, quantity, sellerID, status);
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    closeConnection();
-    return product;
-}
 
+    public Product getProductByID(int id) {
+        String sql = "SELECT [productID], [name], [categoryID], [price], [quantity], [sellerID], [status] "
+                + "FROM [dbo].[tblProducts] WHERE [productID] = ?";
+        Product product = null;
+        getConnection();
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                int productID = resultSet.getInt("productID");
+                String name = resultSet.getString("name");
+                int categoryID = resultSet.getInt("categoryID");
+                double price = resultSet.getDouble("price");
+                int quantity = resultSet.getInt("quantity");
+                String sellerID = resultSet.getString("sellerID");
+                String status = resultSet.getString("status");
+                product = new Product(productID, name, categoryID, price, quantity, sellerID, status);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeConnection();
+        return product;
+    }
 }
