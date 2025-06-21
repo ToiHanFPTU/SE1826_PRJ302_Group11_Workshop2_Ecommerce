@@ -87,7 +87,7 @@ public class AddCartController extends HttpServlet {
             CartDAO cdao = new CartDAO();
             cdao.addToCart(c);
             
-            response.sendRedirect("productList.jsp");
+            response.sendRedirect("customerProductList.jsp");
         }catch (Exception e){
             e.printStackTrace();
             response.sendRedirect("error.jsp");
