@@ -6,28 +6,24 @@
 package controller.Invoice;
 
 import dao.CartDAO;
-import dao.InvoiceDAO;
 import dao.ProductDAO;
-import jakarta.servlet.ServletException;
+import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import model.Cart;
-import model.Invoice;
 import model.Product;
 import model.User;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import model.Invoice;
 
 /**
  *
  * @author Log
  */
-@WebServlet(name="CreateInvoiceController", urlPatterns={"/CreateInvoiceController"})
-public class CreateInvoiceController extends HttpServlet {
+@WebServlet(name="PrepareInvoiceController", urlPatterns={"/PrepareInvoiceController"})
+public class PrepareInvoiceController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -44,10 +40,10 @@ public class CreateInvoiceController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CreateInvoiceController</title>");  
+            out.println("<title>Servlet PrepareInvoiceController</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CreateInvoiceController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet PrepareInvoiceController at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -77,7 +73,6 @@ public class CreateInvoiceController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        // Lấy thông tin người dùng từ session
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
@@ -86,28 +81,21 @@ public class CreateInvoiceController extends HttpServlet {
             return;
         }
 
-        // Lấy danh sách cartID được gửi từ invoicePage.jsp
         String[] selectedCartIDs = request.getParameterValues("selectedCartID");
         if (selectedCartIDs == null || selectedCartIDs.length == 0) {
-            request.setAttribute("error", "No Product for payment");
+            request.setAttribute("error", "Please choose product for payment.");
             request.getRequestDispatcher("viewCart.jsp").forward(request, response);
             return;
         }
 
-        // Lấy thông tin khác từ form
-        String paymentMethod = request.getParameter("paymentMethod");
-        String deliveryAddress = request.getParameter("deliveryAddress");
-        String contact = request.getParameter("contact");
-
         CartDAO cartDAO = new CartDAO();
         ProductDAO productDAO = new ProductDAO();
-        InvoiceDAO invoiceDAO = new InvoiceDAO();
 
         List<Cart> selectedCarts = new ArrayList<>();
-        double totalAmount = 0;
+        float totalAmount = 0;
 
-        for (String cartIDStr : selectedCartIDs) {
-            int cartID = Integer.parseInt(cartIDStr);
+        for (String idStr : selectedCartIDs) {
+            int cartID = Integer.parseInt(idStr);
             Cart cart = cartDAO.getCartByID(cartID);
             if (cart != null) {
                 Product product = productDAO.getProductByID(cart.getProductID());
@@ -116,28 +104,15 @@ public class CreateInvoiceController extends HttpServlet {
             }
         }
 
-        // Tạo hóa đơn
-        Date today = new Date(System.currentTimeMillis());
-        int invoiceID = invoiceDAO.createInvoice(user.getUserID(), totalAmount, today);
+        // Gửi danh sách sản phẩm và tổng tiền đến JSP
+        Invoice invoice = new Invoice();
+        invoice.setTotalAmount(totalAmount);
+        request.setAttribute("selectedCarts", selectedCarts);
+        request.setAttribute("invoice", invoice);
 
-        // Thêm chi tiết hóa đơn và xóa cart
-        for (Cart cart : selectedCarts) {
-            Product product = productDAO.getProductByID(cart.getProductID());
-
-            invoiceDAO.addInvoiceDetail(invoiceID, cart.getProductID(), cart.getQuantity(), product.getPrice());
-
-            // Xóa cart sau khi đã thanh toán
-            cartDAO.deleteCart(cart.getCartID());
-        }
-
-        // Chuyển hướng đến trang xác nhận
-        request.setAttribute("invoiceID", invoiceID);
-        request.setAttribute("totalAmount", totalAmount);
-        request.setAttribute("paymentMethod", paymentMethod);
-        request.setAttribute("deliveryAddress", deliveryAddress);
-        request.setAttribute("contact", contact);
-
-        request.getRequestDispatcher("invoiceSuccess.jsp").forward(request, response);
+        // Forward tới invoicePage.jsp
+        request.getRequestDispatcher("invoicePage.jsp").forward(request, response);
+        
     }
 
     /** 
