@@ -47,38 +47,62 @@ public class InvoiceDAO extends utils{
     }
     closeConnection();
   }
-    public List<Invoice> listInvoice(){
-        List<Invoice> Ilist = new ArrayList<>();
-        String sql = "SELECT i.[invoiceID]\n" +
-                     "      ,i.[userID]\n" +
-                     "      ,i.[totalAmount]\n" +
-                     "      ,i.[status]\n" +
-                     "      ,i.[createdDate]\n"
-                   + "      ,id.[productID]\n"
-                   + "      ,id.[quantity]\n"
-                   + "      ,id.[price]\n" 
-                   + "FROM [ECommerceDB].[dbo].[tblInvoices] i\n"
-                   + "JOIN [ECommerceDB].[dbo].[tblInvoiceDetails] id\n"
-                   + "ON id.[invoiceID] = i.[invoiceID]\n";
-        getConnection();
-        try(PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs =ps.executeQuery()){
-            while(rs.next()){
+   public List<Invoice> getInvoicesByUser(String userID) {
+    List<Invoice> Ilist = new ArrayList<>();
+    String sql = "SELECT i.invoiceID, i.userID, i.totalAmount, i.status, i.createdDate, " +
+                 "id.productID, id.quantity, id.price " +
+                 "FROM tblInvoices i " +
+                 "JOIN tblInvoiceDetails id ON i.invoiceID = id.invoiceID " +
+                 "WHERE i.userID = ?";
+    getConnection();
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, userID);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
             int invoiceID = rs.getInt("invoiceID");
-            String userID = rs.getString("userID");
             float totalAmount = rs.getFloat("totalAmount");
             String status = rs.getString("status");
             Date createdDate = rs.getDate("createdDate");
             int productID = rs.getInt("productID");
             int quantity = rs.getInt("quantity");
             float price = rs.getFloat("price");
+
             Ilist.add(new Invoice(invoiceID, userID, totalAmount, status, createdDate, productID, quantity, price));
-            }
-        }catch(Exception e){
-            e.printStackTrace();
         }
-        return Ilist;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    closeConnection();
+    return Ilist;
+  }
+   public List<Invoice> getInvoicesByUserAndStatus(String userID, String status) {
+    List<Invoice> Ilist = new ArrayList<>();
+    String sql = "SELECT i.invoiceID, i.userID, i.totalAmount, i.status, i.createdDate, " +
+                 "id.productID, id.quantity, id.price " +
+                 "FROM tblInvoices i " +
+                 "JOIN tblInvoiceDetails id ON i.invoiceID = id.invoiceID " +
+                 "WHERE i.userID = ? AND i.status = ?";
+    getConnection();
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, userID);
+        ps.setString(2, status);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int invoiceID = rs.getInt("invoiceID");
+            float totalAmount = rs.getFloat("totalAmount");
+            Date createdDate = rs.getDate("createdDate");
+            int productID = rs.getInt("productID");
+            int quantity = rs.getInt("quantity");
+            float price = rs.getFloat("price");
+
+            Ilist.add(new Invoice(invoiceID, userID, totalAmount, status, createdDate, productID, quantity, price));
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    closeConnection();
+    return Ilist;
+  }
     public void deleteInvoice(int invoiceID){
         String sql = "DELETE FROM [dbo].[tblInvoices]\n"
                    + "WHERE [invoiceID] = ?";
@@ -90,4 +114,17 @@ public class InvoiceDAO extends utils{
             e.printStackTrace();
         }
     }
+    public void updateInvoiceStatus(int invoiceID, String status) {
+    String sql = "UPDATE tblInvoices SET status = ? WHERE invoiceID = ?";
+    getConnection();
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, status);
+        ps.setInt(2, invoiceID);
+        ps.executeUpdate();
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        closeConnection();
+    }
+  }
 }
