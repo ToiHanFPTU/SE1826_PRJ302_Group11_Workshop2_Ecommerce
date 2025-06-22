@@ -9,7 +9,9 @@
 <%@ page import="dao.CartDAO" %>
 <%@ page import="model.Product" %>
 <%@ page import="dao.ProductDAO" %>
+<%@ page import="model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
     User user = (User) session.getAttribute("user");
     if (user == null || !user.getRoleID().equalsIgnoreCase("bu")) {
@@ -20,7 +22,7 @@
     CartDAO cartDAO = new CartDAO();
     ProductDAO productDAO = new ProductDAO();
 
-    List<Cart> cartList = cartDAO.getCartByUserID(userID);
+    List<Cart> cartList = cartDAO.getCartByUserID(user.getUserID());
     double total = 0;
 %>
 <!DOCTYPE html>
@@ -32,42 +34,36 @@
 <body>
     <h2>Your Cart - <%= user.getFullName()%></h2>
 
-    <table border="1" cellpadding="10">
-        <tr>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total Amount</th>
-            <th>Action</th>
-        </tr>
-        <%
-            for (Cart c : cartList) {
-                Product p = productDAO.getProductByID(c.getProductID());
-                double amount = p.getPrice() * c.getQuantity();
-                total += amount;
-        %>
-        <tr>
-            <td><%= p.getName() %></td>
-            <td><%= p.getPrice() %></td>
-            <td><%= c.getQuantity() %></td>
-            <td><%= amount %></td>
-            <td>
-                <form action="removeFromCart" method="post">
-                    <input type="hidden" name="cartID" value="<%= c.getCartID() %>">
-                    <input type="submit" value="Delete">
-                </form>
-            </td>
-        </tr>
-        <% } %>
-        <tr>
-            <td colspan="3" align="right"><strong>Total:</strong></td>
-            <td colspan="2"><strong><%= total %></strong></td>
-        </tr>
-    </table>
+    <form action="PrepareInvoiceController" method="post">
+        <table border="1" cellpadding="10">
+            <tr>
+                <th>Select</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+            <%
+                for (Cart c : cartList) {
+                    Product p = productDAO.getProductByID(c.getProductID());
+                    double amount = p.getPrice() * c.getQuantity();
+            %>
+            <tr>
+                <td>
+                    <input type="checkbox" name="selectedCartID" value="<%= c.getCartID() %>">
+                </td>
+                <td class="name"><%= p.getName() %></td>
+                <td class="price"><%= p.getPrice() %></td>
+                <td class="quantity"><%= c.getQuantity() %></td>
+                <td class="amount"><%= amount %></td>
+            </tr>
+            <% } %>
+        </table>
 
-    <form action="checkout" method="post">
-        <input type="submit" value="Payment">
+        <br>
+        <input type="submit" value="Buy">
     </form>
 </body>
 </html>
+
 
