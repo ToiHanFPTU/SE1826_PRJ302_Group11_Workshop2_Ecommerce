@@ -4,28 +4,49 @@ import DBUtils.utils;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.Invoice;
 
 public class InvoiceDAO extends utils{
-    public void createInvoice(Invoice invoice){
-        String sql = "INSERT INTO tblInvoices(userID, totalAmount, status, createDate) VALUES(?, ?, ?, ?);"
-                   + "INSERT INTO tblInvoiceDetails(productID, quantity, price) VALUES(?, ?, ?)";
-        getConnection();
-        try(PreparedStatement ps = connection.prepareStatement(sql)){
-            ps.setObject(1, invoice.getUserID());
-            ps.setObject(2, invoice.getTotalAmount());
-            ps.setObject(3, invoice.getStatus());
-            ps.setObject(4, invoice.getCreateDate());
-            ps.setObject(5, invoice.getProductID());
-            ps.setObject(6, invoice.getQuantity());
-            ps.setObject(7, invoice.getPrice());
-            ps.executeLargeUpdate();
-        }catch(Exception e){
-            e.printStackTrace();
+    public int createInvoice(String userID, double totalAmount, Date createDate) {
+    String sql = "INSERT INTO tblInvoices(userID, totalAmount, status, createdDate) VALUES (?, ?, 'Pending', ?)";
+    int invoiceID = -1;
+    getConnection();
+    try {
+        PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        ps.setString(1, userID);
+        ps.setDouble(2, totalAmount);
+        ps.setDate(3, createDate);
+        ps.executeUpdate();
+
+        ResultSet rs = ps.getGeneratedKeys();
+        if (rs.next()) {
+            invoiceID = rs.getInt(1);
         }
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    closeConnection();
+    return invoiceID;
+}
+
+    public void addInvoiceDetail(int invoiceID, int productID, int quantity, double price) {
+    String sql = "INSERT INTO tblInvoiceDetails(invoiceID, productID, quantity, price) VALUES (?, ?, ?, ?)";
+    getConnection();
+    try {
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setInt(1, invoiceID);
+        ps.setInt(2, productID);
+        ps.setInt(3, quantity);
+        ps.setDouble(4, price);
+        ps.executeUpdate();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    closeConnection();
+  }
     public List<Invoice> listInvoice(){
         List<Invoice> Ilist = new ArrayList<>();
         String sql = "SELECT i.[invoiceID]\n" +
