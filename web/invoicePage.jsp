@@ -1,9 +1,3 @@
-<%-- 
-    Document   : invoicePage
-    Created on : Jun 20, 2025, 10:34:21 AM
-    Author     : Log
---%>
-
 <%@ page import="java.util.List" %>
 <%@ page import="model.Cart" %>
 <%@ page import="model.Product" %>

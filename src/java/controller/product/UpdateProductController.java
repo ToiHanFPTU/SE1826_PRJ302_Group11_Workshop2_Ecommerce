@@ -8,8 +8,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.Category;
 import model.Product;
 
 @WebServlet(name = "UpdateProductController", urlPatterns = {"/UpdateProductController"})
@@ -38,7 +36,6 @@ public class UpdateProductController extends HttpServlet {
         String priceParam = request.getParameter("price");
         String quantityParam = request.getParameter("quantity");
 
-        // ✅ Validate trước khi parse
         if (categoryParam == null || priceParam == null || quantityParam == null) {
             request.setAttribute("msg", "Vui lòng điền đầy đủ thông tin sản phẩm");
             request.setAttribute("product", product);

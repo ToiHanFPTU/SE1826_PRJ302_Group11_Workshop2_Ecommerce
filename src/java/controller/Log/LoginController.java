@@ -10,15 +10,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.User;
 
-@WebServlet(name="LoginController", urlPatterns={"/LoginController"})
+@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
 public class LoginController extends HttpServlet {
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -37,7 +37,8 @@ public class LoginController extends HttpServlet {
                 System.out.println("Found: " + userLogin.toString());
                 HttpSession session = request.getSession();
                 session.setAttribute("user", userLogin);
-                response.sendRedirect(request.getContextPath() + "/ProductController?action=search");
+//                response.sendRedirect(request.getContextPath() + "/ProductController?action=search");
+                request.getRequestDispatcher("view/customer/shoppingPage.jsp").forward(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
