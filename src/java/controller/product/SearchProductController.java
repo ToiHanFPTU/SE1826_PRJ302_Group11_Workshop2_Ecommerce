@@ -55,7 +55,9 @@ public class SearchProductController extends HttpServlet {
                     products.sort(Comparator.comparing(Product::getPrice).reversed());
                 }
             }
-
+            request.setAttribute("minPrice", minPrice);
+            request.setAttribute("maxPrice", maxPrice);
+            request.setAttribute("orderByPrice", orderByPrice);
             request.setAttribute("productList", products);
             request.getRequestDispatcher("productPage.jsp").forward(request, response);
 

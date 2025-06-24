@@ -27,18 +27,18 @@
 
             <form action="SearchProductController" method="post">
                 <!-- chỗ nhập tên để search -->
-                <input type="text" name="searchBox" placeholder="Input text" />
-                Price: <input type="number" name="minPrice" style="width: 120px; height: 15.333px;" placeholder="đ Từ">
-                <input type="number" name="maxPrice" style="width: 120px; height: 15.333px;" placeholder="đ Đến">
+                <input type="text" name="searchBox" placeholder="Search ..." />
+                Price: <input type="number" name="minPrice" style="width: 120px; height: 15.333px;"value="<fmt:formatNumber value='${minPrice}' pattern='#.##'/>" placeholder="đ Từ">
+                <input type="number" name="maxPrice" style="width: 120px; height: 15.333px;" value="<fmt:formatNumber value='${maxPrice}' pattern='#.##'/>" placeholder="đ Đến">
                 <select name="orderByPrice" style="height: 22.333px;">
-                    <option value="ascending">Ascending</option>
-                    <option value="descending">Descending</option>
+                    <option value="ascending" ${orderByPrice == 'ascending' ? 'selected' : ''}>Ascending</option>
+                    <option value="descending" ${orderByPrice == 'descending' ? 'selected' : ''}>Descending</option>
                 </select>
                 <!-- nút submit -->
                 <input type="submit" name="searchButton" value="search" />
             </form>
         </div>
-        <a href="addProductPage.jsp">Add New Product</a>
+        <a href="CreateProductController">Add New Product</a>
         <table>
             <thead>
                 <tr>
@@ -55,51 +55,57 @@
             <tbody>
                 <c:forEach items="${productList}" var="product">
                     <tr>
-                <form action="ProductController">
-                    <td>
-                        <input type="number" name="productID" value="${product.productID}" readonly />
-                    </td>
-                    <td>
-                        <input type="text" name="name" value="${product.name}" required />
-                    </td>
-                    <td>
-                        <input type="number" name="categoryID" value="${product.categoryID}" readonly />
-                    </td>
-                    <td>
-                        <input type="number" name="price" value="<fmt:formatNumber value='${product.price}' pattern='#.##'/>" />
-                    </td>
-                    <td>
-                        <input type="number" name="quantity" value="${product.quantity}" required />
-                    </td>
-                    <td>
-                        <input type="text" name="sellerID" value="${product.sellerID}" readonly />
-                    </td>
-                    <td>
-                        <select name="status">
-                            <option value="available" ${product.status == 'available' ? 'selected' : ''}>Available</option>
-                            <option value="unavailable" ${product.status == 'unavailable' ? 'selected' : ''}>Unavailable</option>
-                        </select>
-                    </td>
-                    <td>
-                        <form action="ProductController" style="display: flex">
-                            <input
-                                type="hidden"
-                                name="productID"
-                                value="${product.productID}"
-                                />
-                            <button type="submit" name="action" value="update">
-                                Update
-                            </button>
-                            <button type="submit" name="action" value="delete">
-                                Delete
-                            </button>
-                        </form>
-                    </td>
-                </form>
-            </tr>
-        </c:forEach>
-    </tbody>
-</table>
-</body>
+
+                        <td>
+                            <!-- productID ẩn -->
+                            <input type="hidden" name="productID" value="${product.productID}" />
+                            <input type="number" name="productID" value="${product.productID}" readonly />
+                        </td>
+                        <td>
+                            <input type="text" name="name" value="${product.name}" required />
+                        </td>
+                        <td>
+                            <input type="number" name="categoryID" value="${product.categoryID}" readonly />
+                        </td>
+                        <td>
+                            <input type="number" name="price" value="<fmt:formatNumber value='${product.price}' pattern='#.##'/>" />
+                        </td>
+                        <td>
+                            <input type="number" name="quantity" value="${product.quantity}" required />
+                        </td>
+                        <td>
+                            <input type="text" name="sellerID" value="${product.sellerID}" readonly />
+                        </td>
+                        <td>
+                            <select name="status">
+                                <option value="available" ${product.status == 'available' ? 'selected' : ''}>Available</option>
+                                <option value="unavailable" ${product.status == 'unavailable' ? 'selected' : ''}>Unavailable</option>
+                            </select>
+                        </td>
+                        <td>
+                            <form action="UpdateProductController" method="post">
+                                <input type="hidden" name="productID" value="${product.productID}"/>
+                                <button type="submit" name="action" value="update">Update</button>
+                            </form>
+                            <form action="DeletePeoductController" style="display: flex" method="post">
+                                <input type="hidden" name="productID" value="${product.productID}"/>
+                                <button type="submit" name="action" value="delete">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+        <p class="alert" hidden>${msg}</p>
+        <script>
+            window.addEventListener('DOMContentLoaded', function () {
+                const alertBox = document.querySelector(".alert");
+                const message = alertBox?.textContent?.trim();
+                        if (message) {
+                    alert(message);
+                }
+            });
+        </script>
+    </body>
 </html>
 

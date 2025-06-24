@@ -3,11 +3,12 @@
     Created on : Jun 18, 2025, 10:17:41 AM
     Author     : Log
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Product" %>
 <%@ page import="dao.ProductDAO" %>
+<%@ page import="model.User" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
     // Lấy user từ session
     User user = (User) session.getAttribute("user");
@@ -18,16 +19,20 @@
     }
     // Lấy danh sách sản phẩm
     ProductDAO dao = new ProductDAO();
-    List<Product> list = dao.listAllProducts();
+    List<Product> list = dao.listAllProduct();
 %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Product List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <h2>Welcome, <%= user.getFullName()%>!</h2>
+    <a href="viewCart.jsp" style="float: right; font-size: 20px; text-decoration: none;">
+        <i class="fas fa-shopping-cart"></i> View Cart
+    </a> <br>
     <h3>Product List</h3>
     <table border="1" cellpadding="10">
         <tr>

@@ -11,6 +11,7 @@
     <body>
         <form action="CreateProductController" method="post">
             <h2>Insert new product</h2>
+            <a href="ProductController?action=search">Back to Product list</a>
             <table>
                 <tr>
                     <td>Product Name</td>
@@ -20,9 +21,12 @@
                     <td>Category</td>
                     <td>
                         <select name="categoryID">
-                            <c:forEach var="category" items="${categories}">
-                                <option value="${category.categoryID}">
-                                    ${category.categoryName}
+                            <c:forEach items="${categories}" var="category" >
+                                <option value="101">
+                                    Khác
+                                </option>
+                                <option value="${category.getCategoryID()}">
+                                    ${category.getCategoryName()}
                                 </option>
                             </c:forEach>
                         </select>
@@ -57,5 +61,15 @@
                 </tr>
             </table>
         </form>
+        <p class="alert" hidden>${msg}</p>
+        <script>
+            window.addEventListener('DOMContentLoaded', function () {
+                const alertBox = document.querySelector(".alert");
+                const message = alertBox?.textContent?.trim();
+                        if (message) {
+                    alert(message);
+                }
+            });
+        </script>
     </body>
 </html>

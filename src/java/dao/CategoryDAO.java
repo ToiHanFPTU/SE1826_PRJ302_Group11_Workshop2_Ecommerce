@@ -134,4 +134,24 @@ public class CategoryDAO extends utils {
         closeConnection();
         return category;
     }
+
+    public String getCategoryNameByID(int categoryID) {
+        String categoryName = "";
+        String sql = "SELECT [categoryName]\n"
+                + "  FROM [dbo].[tblCategories]\n"
+                + "  WHERE [categoryID] = ?";
+        getConnection();
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, categoryID);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                categoryName = resultSet.getString("categoryName");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        closeConnection();
+        return categoryName;
+    }
 }

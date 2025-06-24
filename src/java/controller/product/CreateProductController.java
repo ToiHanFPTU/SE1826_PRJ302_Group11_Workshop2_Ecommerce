@@ -20,7 +20,7 @@ public class CreateProductController extends HttpServlet {
             throws ServletException, IOException {
         List<Category> categories = new CategoryDAO().listAllCategories();
         request.setAttribute("categories", categories);
-        request.getRequestDispatcher("addProduct.jsp").forward(request, response);
+        request.getRequestDispatcher("addProductPage.jsp").forward(request, response);
     }
 
     @Override
@@ -36,22 +36,25 @@ public class CreateProductController extends HttpServlet {
             String sellerID = request.getParameter("sellerID");
             String status = request.getParameter("status");
 
-            Product newProduct = new Product(0, name, categoryID, price, quantity, sellerID, status);
+            Product newProduct = new Product(name, categoryID, price, quantity, sellerID, status);
             boolean success = productDAO.insertProduct(newProduct);
 
             if (success) {
-                request.setAttribute("msg", "Create new product successfully");
+                response.sendRedirect("ProductController?action=search");
             } else {
                 request.setAttribute("msg", "Create new product failed");
+                List<Category> categories = new CategoryDAO().listAllCategories();
+                request.setAttribute("categories", categories);
+                request.getRequestDispatcher("addProduct.jsp").forward(request, response);
             }
-
-            // Redirect về danh sách sản phẩm (hoặc có thể về lại form)
-            response.sendRedirect("ProductController?action=search");
 
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("msg", "Lỗi khi thêm sản phẩm: " + e.getMessage());
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+            List<Category> categories = new CategoryDAO().listAllCategories();
+            request.setAttribute("categories", categories);
+            request.getRequestDispatcher("addProduct.jsp").forward(request, response);
         }
     }
+
 }
