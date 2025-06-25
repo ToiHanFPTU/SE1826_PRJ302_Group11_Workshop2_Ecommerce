@@ -10,6 +10,8 @@
 
 <%
     List<Invoice> invoiceList = (List<Invoice>) request.getAttribute("invoiceList");
+    String currentStatus = request.getParameter("status");
+    if(currentStatus == null) currentStatus = "all";
 %>
 
 <!DOCTYPE html>
@@ -18,84 +20,56 @@
     <meta charset="UTF-8">
     <title>Invoice List</title>
     <style>
-        .nav-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .nav-tabs button {
-            padding: 10px 20px;
+        .nav-tabs input[type="submit"] {
+            margin: 5px;
+            padding: 10px 15px;
             border: none;
-            background-color: #eee;
+            background-color: #f1f1f1;
             cursor: pointer;
         }
-        .nav-tabs button.active {
-            background-color: #ccc;
-            font-weight: bold;
-        }
-        .invoice-table {
-            display: none;
-        }
-        .invoice-table.active {
-            display: table;
+        .nav-tabs input[type="submit"].selected {
+            background-color: #007BFF;
+            color: white;
         }
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
         th, td {
-            padding: 10px;
-            border: 1px solid #999;
+            border: 1px solid #ccc;
+            padding: 8px;
         }
     </style>
-    <script>
-        function showTab(status) {
-            let tabs = document.querySelectorAll(".invoice-table");
-            tabs.forEach(tab => tab.classList.remove("active"));
-
-            let target = document.getElementById(status);
-            if (target) target.classList.add("active");
-
-            let buttons = document.querySelectorAll(".nav-tabs button");
-            buttons.forEach(btn => btn.classList.remove("active"));
-
-            document.getElementById("btn-" + status).classList.add("active");
-        }
-
-        window.onload = function() {
-            showTab('all');
-        };
-    </script>
 </head>
 <body>
+
     <h2>List of Invoice</h2>
 
     <div class="nav-tabs">
-        <button id="btn-all" onclick="showTab('all')">All</button>
-        <button id="btn-pending" onclick="showTab('pending')">Pending</button>
-        <button id="btn-shipping" onclick="showTab('shipping')">Transport</button>
-        <button id="btn-waiting" onclick="showTab('waiting')">Delivering</button>
-        <button id="btn-cancelled" onclick="showTab('cancelled')">Canceled</button>
-        <button id="btn-refund" onclick="showTab('refund')">Refund</button>
+        <form action="SearchInvoiceController" method="get">
+            <input type="submit" name="status" value="all" class="<%= currentStatus.equals("all") ? "selected" : "" %>">
+            <input type="submit" name="status" value="pending" class="<%= currentStatus.equals("pending") ? "selected" : "" %>">
+            <input type="submit" name="status" value="shipping" class="<%= currentStatus.equals("shipping") ? "selected" : "" %>">
+            <input type="submit" name="status" value="waiting" class="<%= currentStatus.equals("waiting") ? "selected" : "" %>">
+            <input type="submit" name="status" value="cancelled" class="<%= currentStatus.equals("cancelled") ? "selected" : "" %>">
+            <input type="submit" name="status" value="refund" class="<%= currentStatus.equals("refund") ? "selected" : "" %>">
+        </form>
     </div>
 
-    <%
-        String[] statuses = {"all", "pending", "shipping", "waiting", "cancelled", "refund"};
-        String[] statusLabels = {"All", "Pending", "Transport", "Delivering", "Canceled", "Refund"};
-
-        for (int i = 0; i < statuses.length; i++) {
-    %>
-    <table id="<%= statuses[i] %>" class="invoice-table">
+    <table>
         <tr>
             <th>Invoice ID</th>
             <th>Customer</th>
             <th>Total Amount</th>
             <th>Status</th>
             <th>Created Date</th>
+            <th>Action</th>
         </tr>
+
         <%
-            for (Invoice inv : invoiceList) {
-                if (statuses[i].equals("all") || inv.getStatus().equalsIgnoreCase(statuses[i])) {
+            if (invoiceList != null && !invoiceList.isEmpty()) {
+                for (Invoice inv : invoiceList) {
         %>
         <tr>
             <td><%= inv.getInvoiceID() %></td>
@@ -103,13 +77,27 @@
             <td><%= inv.getTotalAmount() %></td>
             <td><%= inv.getStatus() %></td>
             <td><%= inv.getCreateDate() %></td>
+            <td>
+                <% if (inv.getStatus().equalsIgnoreCase("pending")) { %>
+                    <form action="CancelInvoiceController" method="post" style="display:inline;">
+                        <input type="hidden" name="invoiceID" value="<%= inv.getInvoiceID() %>">
+                        <input type="submit" value="Cancel Invoice">
+                    </form>
+                <% } %>
+            </td>
         </tr>
         <%
                 }
+            } else {
+        %>
+        <tr>
+            <td colspan="6" style="text-align:center;">No Invoice Found</td>
+        </tr>
+        <%
             }
         %>
     </table>
-    <% } %>
+
 </body>
 </html>
 
