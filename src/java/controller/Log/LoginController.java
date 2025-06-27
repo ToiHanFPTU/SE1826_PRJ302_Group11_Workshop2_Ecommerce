@@ -1,5 +1,6 @@
 package controller.Log;
 
+import dao.CategoryDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -8,11 +9,17 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.Category;
 import model.User;
 
 @WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
 public class LoginController extends HttpServlet {
 
+    private static final String ERROR = "error.jsp";
+    private static final String ADMIN = "adminPage.jsp";
+    private static final String CUSTOMER = "ProductList.jsp";
+    String url = "LoginController";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -22,26 +29,44 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        System.out.println(username);
-        String password = request.getParameter("password");
-        System.out.println(password);
-        UserDAO userDAO = new UserDAO();
+        HttpSession session = request.getSession();
         try {
+            String username = request.getParameter("username");
+            System.out.println(username);
+            String password = request.getParameter("password");
+            System.out.println(password);
+            UserDAO userDAO = new UserDAO();
             User userLogin = userDAO.login(username, password);
             if (userLogin == null) {
                 System.out.println("Login failed: user not found");
                 request.setAttribute("error", "Incorrect username or password");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             } else {
+                CategoryDAO cateDAO = new CategoryDAO();
+                List<Category> listCategory = cateDAO.listAllCategories();
                 System.out.println("Found: " + userLogin.toString());
-                HttpSession session = request.getSession();
                 session.setAttribute("user", userLogin);
-//                response.sendRedirect(request.getContextPath() + "/ProductController?action=search");
-                request.getRequestDispatcher("view/customer/shoppingPage.jsp").forward(request, response);
+                session.setAttribute("category", listCategory);
+                String action = userLogin.getRoleID();
+                switch(action) {
+                    case "AD" :
+                        url = ADMIN;
+                        break;
+                    case "BU" :
+                        url = CUSTOMER;
+                       break;
+                    case "SE" :
+                        url = CUSTOMER;
+                        break;
+                    default :
+                        url = ERROR;
+                        break;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }finally{
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
