@@ -52,7 +52,7 @@
 
 <div class="login-card text-center">
     <i class="fas fa-user-circle login-icon mb-3"></i>
-    <h3 class="mb-4">Admin Login</h3>
+    <h3 class="mb-4">Login</h3>
 
     <% String errorMsg = (String) request.getAttribute("error"); %>
     <% if (errorMsg != null) { %>
@@ -73,6 +73,10 @@
         </div>
 
         <button type="submit" class="btn btn-login w-100 mb-3">Login</button>
+        
+        <div class="text-center">
+            <span class="small">Don't have an account? <a href="signUp.jsp" class="text-decoration-none">Sign Up</a></span>
+        </div>
 
         <div>
             <a href="forgotPassword.jsp" class="small text-decoration-none">Forgot Password?</a>
