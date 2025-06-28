@@ -35,7 +35,7 @@
         <div class="form-container">
             <h3 class="text-center mb-4">Insert New Category</h3>
 
-            <form action="CategoryController?action=insert" method="post">
+            <form action="CategoryController" method="post">
                 <div class="mb-3">
                     <label for="categoryName" class="form-label">Category Name</label>
                     <input type="text" class="form-control" id="categoryName" name="categoryName" required>
@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="d-grid">
-                    <button type="submit" name="submitform" class="btn btn-custom">Add Category</button>
+                    <button type="submit" name="submitform" value="insert" class="btn btn-custom">Add Category</button>
                 </div>
             </form>
 

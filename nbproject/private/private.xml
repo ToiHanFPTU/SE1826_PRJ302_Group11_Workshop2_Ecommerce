@@ -3,31 +3,25 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/controller/Log/LoginController.java</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/web/addCategoryPage.jsp</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/model/Product.java</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/web/addUserPage.jsp</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/model/User.java</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/controller/category/CategoryController.java</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/model/Category.java</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/web/updateProductPage.jsp</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/dao/ProductDAO.java</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/controller/product/UpdateProductController.java</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/controller/product/DeletePeoductController.java</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/controller/Log/ForgotPasswordController.java</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/controller/product/CreateProductController.java</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/dao/CategoryDAO.java</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/web/productPage.jsp</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/web/categoryPage.jsp</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/dao/UserDAO.java</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/web/addProductPage.jsp</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/controller/category/SearchCategoryController.java</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/controller/product/SearchProductController.java</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/controller/product/ProductController.java</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/web/adminUserPage.jsp</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/controller/category/DeleteCategoryController.java</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/controller/category/UpdateCategoryController.java</file>
-            <file>file:/D:/BuiGiaHuy/CN4/PRJ302/code/FPTU/SE1826_PRJ302_Group11_Workshop2_EcommerceManagement/src/java/controller/category/CreateCategoryController.java</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/cancelInvoice.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/addCategoryPage.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/ProductList.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/src/java/DBUtils/utils.java</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/adminUserPage.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/addUserPage.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/src/java/controller/category/SearchCategoryController.java</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/signUp.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/addProductPage.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/adminPage.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/checkAuthorized.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/forgotPassword.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/categoryPage.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/login.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/src/java/controller/category/CreateCategoryController.java</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/resetPassword.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/src/java/controller/category/CategoryController.java</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/invoicePage.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/productPage.jsp</file>
         </group>
     </open-files>
 </project-private>

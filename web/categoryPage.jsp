@@ -55,7 +55,7 @@
 
     <!-- Navigation Buttons -->
     <div class="d-flex justify-content-center mb-4">
-        <a href="adminUserPage.jsp" class="btn btn-outline-success me-2"><i class="fas fa-users"></i> Manage Users</a>
+        <a href="UserController?action=search" class="btn btn-outline-success me-2"><i class="fas fa-users"></i> Manage Users</a>
         <a href="${pageContext.request.contextPath}/LogoutController" class="btn btn-outline-danger"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
@@ -72,7 +72,7 @@
 
     <!-- Add New Category -->
     <div class="mb-3">
-        <a href="CategoryController?action=insert" class="btn btn-success"><i class="fas fa-plus-circle"></i> Add New Category</a>
+        <a href="addCategoryPage.jsp" class="btn btn-success"><i class="fas fa-plus-circle"></i> Add New Category</a>
     </div>
 
     <!-- Category Table -->
