@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import model.Cart;
+import model.User;
 
 /**
  *
@@ -73,7 +74,8 @@ public class AddCartController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String userID = (String)session.getAttribute("userID");
+        User user = (User) session.getAttribute("user");
+        String userID = user.getUserID();
         if(userID == null){
             response.sendRedirect("login.jsp");
         }
@@ -86,11 +88,11 @@ public class AddCartController extends HttpServlet {
             
             CartDAO cdao = new CartDAO();
             cdao.addToCart(c);
-            
-            response.sendRedirect("customerProductList.jsp");
         }catch (Exception e){
             e.printStackTrace();
             response.sendRedirect("error.jsp");
+        }finally{
+            request.getRequestDispatcher("ProductList.jsp").forward(request, response);
         }
     }
 

@@ -51,19 +51,14 @@ public class CartDAO extends utils{
 }
     public List<Cart> getCartByUserID(String userID){
         List<Cart> cart= new ArrayList<>();
-        String sql = "SELECT c.cartID,"
-                   + "       c.userID,"
-                   + "       c.createdDate,"
-                   + "       cd.productID,"
-                   + "       cd.quantity"
-                   + "FROM tblCarts c"
-                   + "JOIN tblCartDetails cd"
-                   + "ON c.cartID = cd.cartID"
-                   + "WHERE c.userID = ?";
+       String sql = "SELECT c.cartID, c.userID, c.createdDate, cd.productID, cd.quantity " +
+             "FROM tblCarts c " +
+             "JOIN tblCartDetails cd ON c.cartID = cd.cartID " +
+             "WHERE c.userID = ?";
         getConnection();
         try{
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setObject(1, "%" + userID + "%");
+            ps.setObject(1, userID );
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                int cartID = rs.getInt("cartID");
@@ -122,4 +117,26 @@ public class CartDAO extends utils{
     }
     closeConnection();
  }
+    public int countCartItems(String userID) {
+    int count = 0;
+    String sql = "SELECT SUM(cd.quantity) " +
+                 "FROM tblCarts c " +
+                 "JOIN tblCartDetails cd ON c.cartID = cd.cartID " +
+                 "WHERE c.userID = ?";
+    getConnection();
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, userID);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            count = rs.getInt(1);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        closeConnection();
+    }
+    return count;
+}
+
+
 }
