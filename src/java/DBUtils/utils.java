@@ -22,7 +22,7 @@ public class utils {
     public Connection getConnection() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String url = "jdbc:sqlserver://localhost:1433;databaseName=ECommerceDB2";
+            String url = "jdbc:sqlserver://localhost:1433;databaseName=ECommerceDB";
             String user = "sa";
             String password = "12345";
             connection = DriverManager.getConnection(url, user, password);
