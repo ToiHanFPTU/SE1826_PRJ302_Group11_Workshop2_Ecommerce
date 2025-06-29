@@ -3,10 +3,10 @@
 <%@ page import="model.User"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin - Manage Users</title>
+    <title>Admin - Manage Categories</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -26,13 +26,6 @@
             padding: 30px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
-        .nav-buttons a {
-            margin: 0 10px;
-        }
-        table th, table td {
-            text-align: center;
-            vertical-align: middle;
-        }
         .btn-update {
             background-color: #6f42c1;
             color: white;
@@ -41,8 +34,12 @@
             background-color: #d63384;
             color: white;
         }
+        textarea {
+            resize: vertical;
+        }
     </style>
 </head>
+
 <body>
 
 <%
@@ -54,59 +51,57 @@
 %>
 
 <div class="container">
-    <h2 class="text-center mb-4"><i class="fas fa-users-cog"></i> Admin - User Management</h2>
+    <h2 class="text-center mb-4"><i class="fas fa-list-alt"></i> Admin - Category Management</h2>
 
     <!-- Navigation Buttons -->
-    <div class="d-flex justify-content-center nav-buttons mb-4">
-        <a href="SearchCategoryController?action=searchButton" class="btn btn-outline-primary"><i class="fas fa-list"></i> Manage Categories</a>
+    <div class="d-flex justify-content-center mb-4">
+        <a href="adminUserPage.jsp" class="btn btn-outline-success me-2"><i class="fas fa-users"></i> Manage Users</a>
         <a href="${pageContext.request.contextPath}/LogoutController" class="btn btn-outline-danger"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
-    <!-- Welcome Message -->
+    <!-- Welcome -->
     <div class="alert alert-info text-center">
         Welcome, <strong><%= user.getFullName() %></strong>!
     </div>
 
     <!-- Search Form -->
-    <form action="SearchUserController" method="post" class="mb-4 d-flex">
-        <input type="text" name="searchBox" class="form-control me-2" placeholder="Enter user name">
+    <form action="SearchCategoryController" method="post" class="mb-4 d-flex">
+        <input type="text" name="searchBox" class="form-control me-2" placeholder="Enter category name">
         <button type="submit" name="searchButton" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
     </form>
 
-    <!-- Add User Link -->
+    <!-- Add New Category -->
     <div class="mb-3">
-        <a href="addUserPage.jsp" class="btn btn-success"><i class="fas fa-user-plus"></i> Add New User</a>
+        <a href="CategoryController?action=insert" class="btn btn-success"><i class="fas fa-plus-circle"></i> Add New Category</a>
     </div>
 
-    <!-- User Table -->
+    <!-- Category Table -->
     <table class="table table-bordered table-striped table-hover">
         <thead class="table-secondary">
             <tr>
-                <th>No</th>
-                <th>User ID</th>
-                <th>Full Name</th>
-                <th>Role ID</th>
-                <th>Password</th>
-                <th>Phone</th>
+                <th>Category ID</th>
+                <th>Name</th>
+                <th>Description</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-        <c:forEach items="${userList}" var="user" varStatus="record">
+        <c:forEach items="${categoryList}" var="cate">
             <tr>
-                <form action="UserController" method="POST">
-                    <td><input type="text" name="No" value="${record.count}" readonly class="form-control text-center"></td>
-                    <input type="hidden" name="userID" value="${user.userID}" />
-
-                    <td><input type="text" value="${user.userID}" readonly class="form-control text-center" /></td>
-                    <td><input type="text" name="fullName" value="${user.fullName}" required class="form-control" /></td>
-                    <td><input type="text" name="roleID" value="${user.roleID}" required class="form-control text-center" /></td>
-                    <td><input type="text" name="password" value="${user.password}" required class="form-control" /></td>
-                    <td><input type="tel" name="phone" value="${user.phone}" required class="form-control" /></td>
-
+                <form action="CategoryController" method="post" class="d-flex">
                     <td>
-                        <button type="submit" name="action" value="update" class="btn btn-sm btn-update"><i class="fas fa-edit"></i> Update</button>
-                        <button type="submit" name="action" value="remove" class="btn btn-sm btn-delete"><i class="fas fa-trash"></i> Delete</button>
+                        <input type="text" name="categoryID" value="${cate.categoryID}" readonly class="form-control text-center">
+                    </td>
+                    <td>
+                        <input type="text" name="categoryName" value="${cate.categoryName}" required class="form-control">
+                    </td>
+                    <td>
+                        <textarea name="categoryDescription" rows="2" required class="form-control">${cate.description}</textarea>
+                    </td>
+                    <td>
+                        <input type="hidden" name="categoryID" value="${cate.categoryID}">
+                        <button type="submit" name="action" value="update" class="btn btn-sm btn-update me-2"><i class="fas fa-edit"></i> Update</button>
+                        <button type="submit" name="action" value="delete" class="btn btn-sm btn-delete"><i class="fas fa-trash"></i> Delete</button>
                     </td>
                 </form>
             </tr>
