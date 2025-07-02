@@ -55,8 +55,11 @@
             <button class="btn btn-outline-light menu-btn" onclick="window.location.href='SearchUserController?action=searchButton'">
                 👥 Manage Users
             </button>
-
-
+            
+            <button class="btn btn-outline-light menu-btn" onclick="window.location.href='ProductController?action=search'">
+                📦 Product List
+            </button>
+            
             <button class="btn btn-outline-light menu-btn" onclick="window.location.href='LogoutController'">
                 🔓 Logout
             </button>

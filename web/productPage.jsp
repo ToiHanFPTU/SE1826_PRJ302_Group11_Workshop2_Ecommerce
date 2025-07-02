@@ -13,7 +13,8 @@
     <body>
         <h2>Products List</h2>
         <%
-            User user = (User) session.getAttribute("user"); if (user == null || !user.getRoleID().equalsIgnoreCase("ad")) {
+            User user = (User) session.getAttribute("user"); 
+            if (user == null || !user.getRoleID().equalsIgnoreCase("SE") && !user.getRoleID().equalsIgnoreCase("ad")) {
                 response.sendRedirect("checkAuthorized.jsp"); return; 
             } 
         %>

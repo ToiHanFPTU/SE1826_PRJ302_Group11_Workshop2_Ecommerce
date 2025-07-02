@@ -10,6 +10,7 @@
 <%@ page import="dao.CartDAO" %>
 <%@ page import="model.User" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
     // Lấy user từ session
     User user = (User) session.getAttribute("user");
@@ -18,10 +19,6 @@
      response.sendRedirect("checkAuthorized.jsp");
      return;
     }
-    // Lấy danh sách sản phẩm
-    ProductDAO dao = new ProductDAO();
-    List<Product> list = dao.listAllProduct();
-   
     CartDAO cDAO = new CartDAO();
     int cartCount = cDAO.countCartItems(user.getUserID());
 %>
@@ -42,31 +39,38 @@
 </a>
     </a> <br>
     <h3>Product List</h3>
+    
+    
+                
     <table border="1" cellpadding="10">
         <tr>
             <th>Product ID</th>
             <th>Name</th>
             <th>Price</th>
-            <th>Add to Cart</th>
+            <th>Action</th>
         </tr>
-        <%
-            for(Product p : list){
-        %>
-        <tr>
-            <td><%= p.getProductID() %></td>
-            <td><%= p.getName() %></td>
-            <td><%= p.getPrice() %></td>
+        <tbody>
+            <c:forEach items="${productList}" var="product">
+                <tr>   
             <td>
+                <input type="number" name="productID" value="${product.productID}" readonly />
+            </td>     
+            <td>
+                <input type="text" name="name" value="${product.name}" required />
+            </td>
+            <td>
+                <input type="number" name="price" value="<fmt:formatNumber value='${product.price}' pattern='#.##'/>" />
+            </td>
+            <td
                 <form action="AddCartController" method="post">
-                    <input type="hidden" name="productID" value="<%= p.getProductID() %>">
+                    <input type="hidden" name="productID" value="${product.productID}">
                     Quantity: <input type="number" name="quantity" value="1" min="1" required>
                     <input type="submit" value="Add to Cart">
                 </form> 
             </td>
-        </tr>
-        <%
-            }
-        %>
+                </tr> 
+            </c:forEach>
+        </tbody>
     </table>
 </body>
 </html>

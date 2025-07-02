@@ -7,9 +7,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.Comparator;
 import java.util.List;
 import model.Product;
+import model.User;
 
 @WebServlet(name = "SearchProductController", urlPatterns = {"/SearchProductController"})
 public class SearchProductController extends HttpServlet {
@@ -23,7 +25,9 @@ public class SearchProductController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         try {
+            User userLogin =(User) session.getAttribute("user");
             ProductDAO productDAO = new ProductDAO();
             List<Product> products;
 
@@ -59,8 +63,11 @@ public class SearchProductController extends HttpServlet {
             request.setAttribute("maxPrice", maxPrice);
             request.setAttribute("orderByPrice", orderByPrice);
             request.setAttribute("productList", products);
+            if(userLogin.getRoleID().equalsIgnoreCase("se")|| userLogin.getRoleID().equalsIgnoreCase("ad")){
             request.getRequestDispatcher("productPage.jsp").forward(request, response);
-
+            }else if(userLogin.getRoleID().equalsIgnoreCase("bu")){
+                request.getRequestDispatcher("ProductList.jsp").forward(request, response);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             request.getRequestDispatcher("error.jsp").forward(request, response);
