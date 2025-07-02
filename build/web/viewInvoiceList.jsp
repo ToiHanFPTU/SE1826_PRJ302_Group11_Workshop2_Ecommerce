@@ -10,6 +10,7 @@
 
 <%
     List<Invoice> invoiceList = (List<Invoice>) request.getAttribute("invoiceList");
+    User user = (User) request.getAttribute("user");
     String currentStatus = request.getParameter("status");
     if (currentStatus == null) currentStatus = "all";
 %>
@@ -74,14 +75,17 @@
                     <td><span class="badge bg-secondary"><%= inv.getStatus() %></span></td>
                     <td><%= inv.getCreateDate() %></td>
                     <td>
-                        <% if (inv.getStatus().equalsIgnoreCase("pending")) { %>
+                        <% if (user.getRoleID().equalsIgnoreCase("bu")) {
+                              if(inv.getStatus().equalsIgnoreCase("pending")) {%>
                             <form action="CancelInvoiceController" method="post" style="display:inline-block;">
                                 <input type="hidden" name="invoiceID" value="<%= inv.getInvoiceID() %>">
                                 <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
                             </form>
                         <% } else { %>
                             <span class="text-muted">No Action</span>
-                        <% } %>
+                        <% } 
+                        }%>
+
                     </td>
                 </tr>
                 <%

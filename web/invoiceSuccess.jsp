@@ -47,7 +47,7 @@
 
     <p>Your order has been successfully placed.</p>
 
-    <a class="btn" href="SearchInvoiceController">View My Orders</a>
+    <a class="btn" href="SearchInvoiceController">View Orders</a>
 
 </body>
 </html>

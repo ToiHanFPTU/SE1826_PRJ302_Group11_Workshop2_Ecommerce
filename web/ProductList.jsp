@@ -3,6 +3,11 @@
     Created on : Jun 18, 2025, 10:17:41 AM
     Author     : Log
 --%>
+<%-- 
+    Document   : productList
+    Created on : Jun 18, 2025, 10:17:41 AM
+    Author     : Log
+--%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="model.User"%>
 <%@ page import="dao.CartDAO"%>
@@ -44,14 +49,24 @@
             padding: 2px 6px;
             font-size: 12px;
         }
+        .btn-view-order {
+            background-color: white !important;
+            color: black !important;
+            border: 1px solid #ccc;
+        }
+        .btn-view-order:hover {
+            background-color: #f0f0f0 !important;
+        }
     </style>
 </head>
-<body>
-
+<body>    
 <div class="container my-4">
-    <!-- Welcome + Cart -->
+    <!-- Welcome + Cart + View Orders -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 class="text-white">Welcome, <c:out value="${user.fullName}"/></h3>
+        <div>
+            <a class="btn btn-view-order" href="SearchInvoiceController">View Orders</a>
+        </div>
         <a href="viewCart.jsp" class="btn btn-light position-relative">
             <i class="fas fa-shopping-cart"></i> Cart
             <span class="cart-count"><%= cartCount %></span>
@@ -130,4 +145,7 @@
 
 </body>
 </html>
+
+
+
 
