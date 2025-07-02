@@ -63,9 +63,9 @@ public class SearchProductController extends HttpServlet {
             request.setAttribute("maxPrice", maxPrice);
             request.setAttribute("orderByPrice", orderByPrice);
             request.setAttribute("productList", products);
-            if(userLogin.getRoleID().equalsIgnoreCase("se")|| userLogin.getRoleID().equalsIgnoreCase("ad")){
+            if(userLogin.getRoleID().equalsIgnoreCase("se")){
             request.getRequestDispatcher("productPage.jsp").forward(request, response);
-            }else if(userLogin.getRoleID().equalsIgnoreCase("bu")){
+            }else if(userLogin.getRoleID().equalsIgnoreCase("bu")|| userLogin.getRoleID().equalsIgnoreCase("ad")){
                 request.getRequestDispatcher("ProductList.jsp").forward(request, response);
             }
         } catch (Exception e) {

@@ -14,7 +14,7 @@
         body {
             text-align: center;
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            background: linear-gradient(135deg, #ff6ec4, #7873f5);
         }
         .success-icon {
             font-size: 100px;
