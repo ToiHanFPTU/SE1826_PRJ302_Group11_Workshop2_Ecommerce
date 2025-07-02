@@ -45,7 +45,7 @@
 <body>
 
     <h2>List of Invoice</h2>
-
+    <a href="ProductController?action=search">Back</a>
     <div class="nav-tabs">
         <form action="SearchInvoiceController" method="get">
             <input type="submit" name="status" value="all" class="<%= currentStatus.equals("all") ? "selected" : "" %>">

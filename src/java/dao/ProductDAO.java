@@ -40,46 +40,52 @@ public class ProductDAO extends utils {
         return products;
     }
 
-    public List<Product> findProduct(String keyword, double minPrice, double maxPrice) {
+    public List<Product> findProduct(String keyword, int categoryID, double minPrice, double maxPrice) {
         String sql;
         List<Product> products = new ArrayList<>();
         getConnection();
 
         try {
-            if (minPrice > 0 && maxPrice > 0 && minPrice < maxPrice) {
-                sql = "SELECT [productID], [name], pro.[categoryID], [price], [quantity], [sellerID], [status] "
-                        + "FROM [dbo].[tblProducts] pro "
-                        + "JOIN [dbo].[tblCategories] cat ON pro.[categoryID] = cat.[categoryID] "
-                        + "WHERE (pro.[name] LIKE ? OR cat.[categoryName] LIKE ? OR pro.[status] LIKE ?) "
-                        + "AND pro.[price] BETWEEN ? AND ?";
-                preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, "%" + keyword + "%");
-                preparedStatement.setString(2, "%" + keyword + "%");
-                preparedStatement.setString(3, "%" + keyword + "%");
-                preparedStatement.setDouble(4, minPrice);
-                preparedStatement.setDouble(5, maxPrice);
-            } else {
-                sql = "SELECT [productID], [name], pro.[categoryID], [price], [quantity], [sellerID], [status] "
-                        + "FROM [dbo].[tblProducts] pro "
-                        + "JOIN [dbo].[tblCategories] cat ON pro.[categoryID] = cat.[categoryID] "
-                        + "WHERE pro.[name] LIKE ? OR cat.[categoryName] LIKE ? OR pro.[status] LIKE ?";
-                preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, "%" + keyword + "%");
-                preparedStatement.setString(2, "%" + keyword + "%");
-                preparedStatement.setString(3, "%" + keyword + "%");
+            boolean filterByPrice = minPrice > 0 && maxPrice > 0 && minPrice < maxPrice;
+            boolean filterByCategory = categoryID > 0;
+
+            // Xây dựng câu SQL động
+            sql = "SELECT [productID], [name], [categoryID], [price], [quantity], [sellerID], [status] "
+                    + "FROM [dbo].[tblProducts] "
+                    + "WHERE ([name] LIKE ? OR [status] LIKE ?)";
+
+            if (filterByCategory) {
+                sql += " AND [categoryID] = ?";
+            }
+            if (filterByPrice) {
+                sql += " AND [price] BETWEEN ? AND ?";
+            }
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            int index = 1;
+            preparedStatement.setString(index++, "%" + keyword + "%"); // name
+            preparedStatement.setString(index++, "%" + keyword + "%"); // status
+
+            if (filterByCategory) {
+                preparedStatement.setInt(index++, categoryID);
+            }
+            if (filterByPrice) {
+                preparedStatement.setDouble(index++, minPrice);
+                preparedStatement.setDouble(index++, maxPrice);
             }
 
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int productID = resultSet.getInt("productID");
                 String name = resultSet.getString("name");
-                int categoryID = resultSet.getInt("categoryID");
+                int catID = resultSet.getInt("categoryID");
                 double price = resultSet.getDouble("price");
                 int quantity = resultSet.getInt("quantity");
                 String sellerID = resultSet.getString("sellerID");
                 String status = resultSet.getString("status");
 
-                products.add(new Product(productID, name, categoryID, price, quantity, sellerID, status));
+                products.add(new Product(productID, name, catID, price, quantity, sellerID, status));
             }
         } catch (SQLException e) {
             System.out.println("Error when accessing database: " + e.getMessage());
