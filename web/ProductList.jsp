@@ -64,6 +64,7 @@
     <!-- Welcome + Cart + View Orders -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 class="text-white">Welcome, <c:out value="${user.fullName}"/></h3>
+         <% if (user.getRoleID().equalsIgnoreCase("bu")) { %>
         <div>
             <a class="btn btn-view-order" href="SearchInvoiceController">View Orders</a>
         </div>
@@ -71,6 +72,7 @@
             <i class="fas fa-shopping-cart"></i> Cart
             <span class="cart-count"><%= cartCount %></span>
         </a>
+    <% } %>
     </div>
 
     <!-- Search Form -->
@@ -110,7 +112,7 @@
                         <th>Product ID</th>
                         <th>Name</th>
                         <th>Price</th>
-                        <th>Add to Cart</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -125,6 +127,7 @@
                             <td>
                                 <input type="number" name="price" value="<fmt:formatNumber value='${product.price}' pattern='#.##'/>" class="form-control" />
                             </td>
+                             <% if (user.getRoleID().equalsIgnoreCase("bu")) { %>
                             <td>
                                 <form action="AddCartController" method="post" class="d-flex">
                                     <input type="hidden" name="productID" value="${product.productID}" />
@@ -132,6 +135,7 @@
                                     <button type="submit" class="btn btn-success btn-sm">Add</button>
                                 </form>
                             </td>
+            <% } %>
                         </tr>
                     </c:forEach>
                 </tbody>
