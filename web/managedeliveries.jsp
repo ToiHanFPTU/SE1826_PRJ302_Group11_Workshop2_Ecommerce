@@ -14,7 +14,7 @@
     }
 
     List<Delivery> deliveries = (List<Delivery>) request.getAttribute("deliveries");
-    List<Invoice> invoiceList = (List<Invoice>) request.getAttribute("invoiceList");
+    List<Invoice> invoicesWithoutDelivery = (List<Invoice>) request.getAttribute("invoicesWithoutDelivery");
     String message = (String) request.getAttribute("message");
     String error = (String) request.getAttribute("error");
     String searchType = (String) request.getAttribute("searchType");
@@ -200,9 +200,6 @@
                 <p class="text-white-50 mb-0">Theo dõi và quản lý tình trạng giao hàng</p>
             </div>
             <div>
-                <button class="btn btn-light me-2" onclick="window.location.href='adminPage.jsp'">
-                    <i class="fas fa-arrow-left me-1"></i>Quay lại
-                </button>
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createDeliveryModal">
                     <i class="fas fa-plus me-1"></i>Tạo đơn giao hàng
                 </button>
@@ -382,8 +379,8 @@
                                 <label class="form-label fw-bold">Chọn hóa đơn:</label>
                                 <select name="invoiceID" class="form-select" required>
                                     <option value="">-- Chọn hóa đơn --</option>
-                                    <% if (invoiceList != null && !invoiceList.isEmpty()) { %>
-                                        <% for (Invoice invoice : invoiceList) { %>
+                                    <% if (invoicesWithoutDelivery != null && !invoicesWithoutDelivery.isEmpty()) { %>
+                                        <% for (Invoice invoice : invoicesWithoutDelivery) { %>
                                         <option value="<%= invoice.getInvoiceID() %>">
                                             HD#<%= invoice.getInvoiceID() %> - <%= invoice.getUserID() %> 
                                             (<%= formatter.format(invoice.getTotalAmount()) %>đ)
@@ -399,7 +396,6 @@
                                 <label class="form-label fw-bold">Trạng thái:</label>
                                 <select name="status" class="form-select" required>
                                     <option value="">-- Chọn trạng thái --</option>
-                                    <option value="Pending">Chờ xử lý</option>
                                     <option value="Delivering">Đang giao</option>
                                     <option value="Delivered">Đã giao</option>
                                     <option value="Shipping">Đang vận chuyển</option>
@@ -448,7 +444,6 @@
                         <div class="mb-3">
                             <label class="form-label fw-bold">Trạng thái mới:</label>
                             <select name="status" id="statusSelect" class="form-select" required>
-                                <option value="Pending">Chờ xử lý</option>
                                 <option value="Delivering">Đang giao</option>
                                 <option value="Delivered">Đã giao</option>
                                 <option value="Shipping">Đang vận chuyển</option>

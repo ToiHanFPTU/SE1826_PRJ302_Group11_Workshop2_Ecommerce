@@ -233,7 +233,7 @@ public class DeliveryDAO extends utils {
                     "FROM tblInvoices i " +
                     "JOIN tblUsers u ON i.userID = u.userID " +
                     "WHERE i.invoiceID NOT IN (SELECT invoiceID FROM tblDeliveries) " +
-                    "AND i.status = 'Paid' " +
+                    "AND i.status = 'pending' " +
                     "ORDER BY i.createdDate DESC";
         
         try {
