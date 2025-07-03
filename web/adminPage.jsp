@@ -48,11 +48,11 @@
         <h5 class="mb-4">Admin Dashboard</h5>
 
         <div class="d-grid gap-2">
-            <button class="btn btn-outline-light menu-btn" onclick="window.location.href='SearchCategoryController?action=searchButton'">
+            <button class="btn btn-outline-light menu-btn" onclick="window.location.href='CategoryController?action=search'">
                 📂 Manage Categories
             </button>
 
-            <button class="btn btn-outline-light menu-btn" onclick="window.location.href='SearchUserController?action=searchButton'">
+            <button class="btn btn-outline-light menu-btn" onclick="window.location.href='UserController?action=search'">
                 👥 Manage Users
             </button>
             
