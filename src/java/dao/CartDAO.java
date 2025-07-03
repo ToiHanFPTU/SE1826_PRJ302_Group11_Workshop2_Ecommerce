@@ -178,7 +178,7 @@ public class CartDAO extends utils {
             count = rs.getInt(1);
         }
     } catch (Exception e) {
-        e.printStackTrace();
+        e.printStackTrace();   
     } finally {
         closeConnection();
     }
