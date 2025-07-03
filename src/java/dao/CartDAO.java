@@ -14,48 +14,6 @@ import model.Cart;
  * @author Log
  */
 public class CartDAO extends utils {
-
-        ResultSet rs = psCart.getGeneratedKeys();
-        int cartID = -1;
-        if (rs.next()) {
-            cartID = rs.getInt(1);
-        }
-
-        // 2. Insert into tblCartDetails với cartID vừa lấy được
-        PreparedStatement psDetail = connection.prepareStatement(insertCartDetailSQL);
-        psDetail.setInt(1, cartID);
-        psDetail.setInt(2, cart.getProductID());
-        psDetail.setInt(3, cart.getQuantity());
-        psDetail.executeUpdate();
-
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        closeConnection();
-    }
-}
-    public List<Cart> getCartByUserID(String userID){
-        List<Cart> cart= new ArrayList<>();
-       String sql = "SELECT c.cartID, c.userID, c.createdDate, cd.productID, cd.quantity " +
-             "FROM tblCarts c " +
-             "JOIN tblCartDetails cd ON c.cartID = cd.cartID " +
-             "WHERE c.userID = ?";
-        getConnection();
-        try{
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setObject(1, userID );
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                count = rs.getInt(1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            closeConnection();
-        }
-        return count;
-    }
-
     public void addToCart(Cart cart) {
         String insertCartSQL = "INSERT INTO tblCarts(userID, createdDate) VALUES (?, ?)";
         String insertCartDetailSQL = "INSERT INTO tblCartDetails(cartID, productID, quantity) VALUES (?, ?, ?)";
@@ -162,8 +120,6 @@ public class CartDAO extends utils {
         }
         closeConnection();
     }
-    closeConnection();
- }
     public int countCartItems(String userID) {
     int count = 0;
     String sql = "SELECT SUM(cd.quantity) " +

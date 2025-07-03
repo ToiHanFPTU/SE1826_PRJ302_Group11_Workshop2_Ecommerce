@@ -34,9 +34,6 @@ public class AddCartController extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
-
-        String userID = user.getUserID();
-
         try {
             String rawProductID = request.getParameter("productID");
             String rawQuantity = request.getParameter("quantity");
