@@ -61,7 +61,7 @@ public class LoginController extends HttpServlet {
                         break;
                     case "DE": 
                         url = INVOICE_LIST;
-                        break;
+                        break; 
                     default :
                         url = ERROR;
                         break;
