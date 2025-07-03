@@ -21,6 +21,7 @@ public class LoginController extends HttpServlet {
     private static final String PRODUCT_LIST = "ProductController?action=search";
     private static final String INVOICE_LIST = "";
     String url = "LoginController";
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -49,8 +50,8 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("user", userLogin);
                 session.setAttribute("category", listCategory);
                 String action = userLogin.getRoleID();
-                switch(action) {
-                    case "AD" :
+                switch (action) {
+                    case "AD":
                         url = ADMIN;
                         break;
                     case "BU" :
@@ -62,14 +63,17 @@ public class LoginController extends HttpServlet {
                     case "DE": 
                         url = INVOICE_LIST;
                         break;
-                    default :
+                    case "SE":
+                        url = CUSTOMER;
+                        break;
+                    default:
                         url = ERROR;
                         break;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

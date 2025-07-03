@@ -1,18 +1,11 @@
-<%-- 
-    Document   : productList
-    Created on : Jun 18, 2025, 10:17:41 AM
-    Author     : Log
---%>
-<%-- 
-    Document   : productList
-    Created on : Jun 18, 2025, 10:17:41 AM
-    Author     : Log
---%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="model.User"%>
-<%@ page import="dao.CartDAO"%>
+<%@ page import="java.util.List" %>
+<%@ page import="model.Product" %>
+<%@ page import="dao.ProductDAO" %>
+<%@ page import="dao.CartDAO" %>
+<%@ page import="model.User" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
     User user = (User) session.getAttribute("user");
@@ -20,6 +13,9 @@
         response.sendRedirect("checkAuthorized.jsp");
         return;
     }
+    ProductDAO dao = new ProductDAO();
+    List<Product> list = dao.listAllProduct();
+   
     CartDAO cDAO = new CartDAO();
     int cartCount = cDAO.countCartItems(user.getUserID());
 %>
@@ -112,40 +108,50 @@
                         <th>Price</th>
                         <th>Add to Cart</th>
                     </tr>
-                </thead>
-                <tbody>
+                </thead> 
+                 <tbody>   
                     <c:forEach items="${productList}" var="product">
                         <tr>
-                            <td>
-                                <input type="number" name="productID" value="${product.productID}" class="form-control" readonly />
-                            </td>
-                            <td>
-                                <input type="text" name="name" value="${product.name}" class="form-control" required />
-                            </td>
-                            <td>
-                                <input type="number" name="price" value="<fmt:formatNumber value='${product.price}' pattern='#.##'/>" class="form-control" />
-                            </td>
-                            <td>
-                                <form action="AddCartController" method="post" class="d-flex">
-                                    <input type="hidden" name="productID" value="${product.productID}" />
-                                    <input type="number" name="quantity" value="1" min="1" class="form-control me-2" style="width:80px;" required>
-                                    <button type="submit" class="btn btn-success btn-sm">Add</button>
-                                </form>
-                            </td>
+                            <td>${product.productID}</td>
+                            <td>${product.name}</td>
+                            <td><fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /></td>
+                        <td>
+                            <form action="AddCartController" method="post">
+                                <input type="hidden" name="productID" value="${product.getProductID()}">
+                                <div class="quantity-control">
+                                    <button type="button" class="decrease">-</button>
+                                    <input type="number" name="quantity" value="1" min="1" />
+                                    <button type="button" class="increase">+</button>
+                                </div>
+                                <input type="submit" value="Add to Cart">
+                            </form> 
+                        </td>
                         </tr>
                     </c:forEach>
-                </tbody>
-            </table>
+                 </tbody>
+                </table>
+            </div>
         </div>
-    </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const controls = document.querySelectorAll('.quantity-control');
 
-</div>
+                controls.forEach(control => {
+                    const input = control.querySelector('input[name="quantity"]');
+                    const increaseBtn = control.querySelector('.increase');
+                    const decreaseBtn = control.querySelector('.decrease');
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                    increaseBtn.addEventListener('click', () => {
+                        input.value = parseInt(input.value) + 1;
+                    });
 
-</body>
+                    decreaseBtn.addEventListener('click', () => {
+                        if (parseInt(input.value) > 1) {
+                            input.value = parseInt(input.value) - 1;
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
 </html>
-
-
-
-

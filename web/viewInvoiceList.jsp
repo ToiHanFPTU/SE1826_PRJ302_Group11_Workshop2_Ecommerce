@@ -38,19 +38,16 @@
 </head>
 <body>
 
-<div class="container my-5">
-    <div class="card shadow p-4 rounded-4">
-        <h3 class="text-center mb-4">📋 Invoice List</h3>
-
-        <form action="SearchInvoiceController" method="get" class="mb-3">
-            <div class="nav-tabs mb-3">
-                <button type="submit" name="status" value="all" class="btn btn-outline-primary <%= currentStatus.equals("all") ? "selected" : "" %>">All</button>
-                <button type="submit" name="status" value="pending" class="btn btn-outline-primary <%= currentStatus.equals("pending") ? "selected" : "" %>">Pending</button>
-                <button type="submit" name="status" value="shipping" class="btn btn-outline-primary <%= currentStatus.equals("shipping") ? "selected" : "" %>">Shipping</button>
-                <button type="submit" name="status" value="waiting" class="btn btn-outline-primary <%= currentStatus.equals("waiting") ? "selected" : "" %>">Waiting</button>
-                <button type="submit" name="status" value="cancelled" class="btn btn-outline-primary <%= currentStatus.equals("cancelled") ? "selected" : "" %>">Cancelled</button>
-                <button type="submit" name="status" value="refund" class="btn btn-outline-primary <%= currentStatus.equals("refund") ? "selected" : "" %>">Refund</button>
-            </div>
+    <h2>List of Invoice</h2>
+    <a href="ProductController?action=search">Back</a>
+    <div class="nav-tabs">
+        <form action="SearchInvoiceController" method="get">
+            <input type="submit" name="status" value="all" class="<%= currentStatus.equals("all") ? "selected" : "" %>">
+            <input type="submit" name="status" value="pending" class="<%= currentStatus.equals("pending") ? "selected" : "" %>">
+            <input type="submit" name="status" value="shipping" class="<%= currentStatus.equals("shipping") ? "selected" : "" %>">
+            <input type="submit" name="status" value="waiting" class="<%= currentStatus.equals("waiting") ? "selected" : "" %>">
+            <input type="submit" name="status" value="cancelled" class="<%= currentStatus.equals("cancelled") ? "selected" : "" %>">
+            <input type="submit" name="status" value="refund" class="<%= currentStatus.equals("refund") ? "selected" : "" %>">
         </form>
 
         <table class="table table-bordered table-hover align-middle">

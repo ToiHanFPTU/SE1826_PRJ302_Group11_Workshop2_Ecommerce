@@ -55,7 +55,7 @@
             <button class="btn btn-outline-light menu-btn" onclick="window.location.href='SearchUserController?action=searchButton'">
                 👥 Manage Users
             </button>
-        
+
             <button class="btn btn-outline-light menu-btn" onclick="window.location.href='InventoryController?action=search'">
                 👜 Manage Inventory
             </button>
