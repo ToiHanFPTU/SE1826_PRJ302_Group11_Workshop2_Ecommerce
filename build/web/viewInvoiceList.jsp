@@ -7,10 +7,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Invoice" %>
+<%@ page import="model.User" %>
 
 <%
     List<Invoice> invoiceList = (List<Invoice>) request.getAttribute("invoiceList");
-    User user = (User) request.getAttribute("user");
+    User user = (User) session.getAttribute("user");
     String currentStatus = request.getParameter("status");
     if (currentStatus == null) currentStatus = "all";
 %>
@@ -81,6 +82,11 @@
                                 <input type="hidden" name="invoiceID" value="<%= inv.getInvoiceID() %>">
                                 <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
                             </form>
+                        <% } else if(inv.getStatus().equalsIgnoreCase("delivered")) { %>
+                            <a href="returnForm.jsp?invoiceID=<%= inv.getInvoiceID() %>" 
+                            class="btn btn-warning btn-sm">
+                            Request Refund
+                            </a>
                         <% } else { %>
                             <span class="text-muted">No Action</span>
                         <% } 

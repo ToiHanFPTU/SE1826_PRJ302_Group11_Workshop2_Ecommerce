@@ -19,6 +19,7 @@ public class LoginController extends HttpServlet {
     private static final String ERROR = "error.jsp";
     private static final String ADMIN = "adminPage.jsp";
     private static final String PRODUCT_LIST = "ProductController?action=search";
+    private static final String INVOICE_LIST = "";
     String url = "LoginController";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -57,6 +58,9 @@ public class LoginController extends HttpServlet {
                        break;
                     case "SE" :
                         url = PRODUCT_LIST;
+                        break;
+                    case "DE": 
+                        url = INVOICE_LIST;
                         break;
                     default :
                         url = ERROR;
