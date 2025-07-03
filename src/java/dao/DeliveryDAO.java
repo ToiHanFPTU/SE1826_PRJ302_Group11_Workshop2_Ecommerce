@@ -234,7 +234,7 @@ public class DeliveryDAO extends utils {
                     "JOIN tblUsers u ON i.userID = u.userID " +
                     "WHERE i.invoiceID NOT IN (SELECT invoiceID FROM tblDeliveries) " +
                     "AND i.status = 'pending' " +
-                    "ORDER BY i.createdDate DESC";
+                    "ORDER BY i.createdDate DESC";  
         
         try {
             connection = getConnection();
@@ -256,6 +256,6 @@ public class DeliveryDAO extends utils {
         } finally {
             closeConnection();
         }
-        return invoices;
+        return invoices ;
     }
 }

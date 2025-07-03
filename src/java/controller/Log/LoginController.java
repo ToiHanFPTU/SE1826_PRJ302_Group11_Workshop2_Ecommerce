@@ -55,16 +55,16 @@ public class LoginController extends HttpServlet {
                         url = ADMIN;
                         break;
                     case "BU" :
-                        url = PRODUCT_LIST;
+                        url = PRODUCT_LIST ;
                        break;
                     case "SE" :
-                        url = PRODUCT_LIST;
+                        url = PRODUCT_LIST ;
                         break;
                     case "DL": 
-                        url = DELIVERY_CONTROLLER;
+                        url = DELIVERY_CONTROLLER ;
                         break; 
                     default :
-                        url = ERROR;
+                        url = ERROR ;
                         break;
                 }
             }

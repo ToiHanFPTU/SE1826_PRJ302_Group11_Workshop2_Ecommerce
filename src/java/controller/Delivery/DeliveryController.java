@@ -11,15 +11,17 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
-
+import dao.InvoiceDAO;
 @WebServlet(name = "DeliveryController", urlPatterns = {"/DeliveryController"})
 public class DeliveryController extends HttpServlet {
     
     private DeliveryDAO deliveryDAO;
+    private InvoiceDAO invoiceDAO;
     
     @Override
     public void init() throws ServletException {
         deliveryDAO = new DeliveryDAO();
+        invoiceDAO = new InvoiceDAO();
     }
     
     @Override
@@ -130,6 +132,7 @@ public class DeliveryController extends HttpServlet {
         try {
             String deliveryIDStr = request.getParameter("deliveryID");
             String status = request.getParameter("status");
+            int invoiceID = Integer.parseInt(request.getParameter("invoiceID"));
             
             if (deliveryIDStr == null || deliveryIDStr.trim().isEmpty()) {
                 throw new Exception("ID đơn giao hàng không hợp lệ");
@@ -142,6 +145,7 @@ public class DeliveryController extends HttpServlet {
             int deliveryID = Integer.parseInt(deliveryIDStr);
             
             if (deliveryDAO.updateDeliveryStatus(deliveryID, status)) {
+                invoiceDAO.updateInvoiceStatus(invoiceID, status);
                 request.setAttribute("message", "Cập nhật trạng thái giao hàng thành công!");
             } else {
                 request.setAttribute("error", "Cập nhật trạng thái giao hàng thất bại!");
@@ -217,6 +221,7 @@ public class DeliveryController extends HttpServlet {
             Date deliveryDate = Date.valueOf(deliveryDateStr);
             
             if (deliveryDAO.createDelivery(invoiceID, address.trim(), deliveryDate, status)) {
+                invoiceDAO.updateInvoiceStatus(invoiceID, status);
                 request.setAttribute("message", "Tạo đơn giao hàng thành công!");
             } else {
                 request.setAttribute("error", "Tạo đơn giao hàng thất bại!");
