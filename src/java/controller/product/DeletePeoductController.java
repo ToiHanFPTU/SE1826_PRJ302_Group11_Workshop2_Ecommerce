@@ -39,7 +39,7 @@ public class DeletePeoductController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        request.getRequestDispatcher("ProductController?action=search").forward(request, response);
+        request.getRequestDispatcher("SearchProducyByUserIDController").forward(request, response);
         return;
     }
 }

@@ -1,9 +1,3 @@
-<%-- 
-    Document   : viewInvoiceList
-    Created on : Jun 22, 2025, 9:49:13 AM
-    Author     : Log
---%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Invoice" %>

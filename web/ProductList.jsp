@@ -10,7 +10,8 @@
 <%
     User user = (User) session.getAttribute("user");
     
-    if(user == null || !user.getRoleID().equalsIgnoreCase("bu")){
+    if (user == null || (!user.getRoleID().equalsIgnoreCase("bu") && !user.getRoleID().equalsIgnoreCase("se") && !user.getRoleID().equalsIgnoreCase("ad"))) {
+
      response.sendRedirect("checkAuthorized.jsp");
      return;
     }
@@ -65,6 +66,30 @@
             <div class="greating">
                 <h2>Welcome, <%= user.getFullName()%>!</h2>
             </div>
+            <button onclick="window.location.href = 'LogoutController'">Logout</button>
+            <nav class="navbar">
+                <div class="nav-container">
+                    <ul class="nav-links">
+                        <li><a href="ProductController?action=search" active>Home</a></li>
+                        <li><a href="FeedbackController?action=SearchAlerts">Feedback</a></li>
+                        <li><a href="SearchInvoiceController">Invoice</a></li>
+                            <%
+                                if (user == null || user.getRoleID().equalsIgnoreCase("SE")) {
+                            %>
+                        <li><a href="SearchProducyByUserIDController">My Studio</a></li>
+                            <%
+                                }
+                            %>
+                            <%
+                                    if (user == null || user.getRoleID().equalsIgnoreCase("AD")) {
+                            %>
+                        <li><a href="adminPage.jsp">Back</a></li>
+                            <%
+                                }
+                            %>
+                    </ul>
+                </div>
+            </nav>
             <div class="title-table">
                 <h3 class="title">Product</h3>
             </div>
@@ -156,17 +181,17 @@
                             <td>${product.productID}</td>
                             <td>${product.name}</td>
                             <td><fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /></td>
-                        <td>
-                            <form action="AddCartController" method="post">
-                                <input type="hidden" name="productID" value="${product.getProductID()}">
-                                <div class="quantity-control">
-                                    <button type="button" class="decrease">-</button>
-                                    <input type="number" name="quantity" value="1" min="1" />
-                                    <button type="button" class="increase">+</button>
-                                </div>
-                                <input type="submit" value="Add to Cart">
-                            </form> 
-                        </td>
+                            <td>
+                                <form action="AddCartController" method="post">
+                                    <input type="hidden" name="productID" value="${product.getProductID()}">
+                                    <div class="quantity-control">
+                                        <button type="button" class="decrease">-</button>
+                                        <input type="number" name="quantity" value="1" min="1" />
+                                        <button type="button" class="increase">+</button>
+                                    </div>
+                                    <input type="submit" value="Add to Cart">
+                                </form> 
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>

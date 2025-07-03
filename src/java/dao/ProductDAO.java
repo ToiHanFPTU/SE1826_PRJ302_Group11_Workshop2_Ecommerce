@@ -134,6 +134,7 @@ public class ProductDAO extends utils {
             isDeleteed = preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println("Error to connect database");
+            e.printStackTrace(); // Thêm dòng này để biết lỗi gì
         }
         closeConnection();
         return isDeleteed;
@@ -190,4 +191,46 @@ public class ProductDAO extends utils {
         closeConnection();
         return product;
     }
+
+    public List<Product> searchProductBySellerID(String sellerID, String keyword, double minPrice, double maxPrice, String orderBy) {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT * FROM tblProducts WHERE sellerID = ? AND name LIKE ? AND price BETWEEN ? AND ?";
+
+        if ("ascending".equalsIgnoreCase(orderBy)) {
+            sql += " ORDER BY price ASC";
+        } else if ("descending".equalsIgnoreCase(orderBy)) {
+            sql += " ORDER BY price DESC";
+        }
+
+        try {
+            getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, sellerID);
+            preparedStatement.setString(2, "%" + (keyword != null ? keyword : "") + "%");
+            preparedStatement.setDouble(3, minPrice);
+            preparedStatement.setDouble(4, maxPrice);
+
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Product p = new Product(
+                        resultSet.getInt("productID"),
+                        resultSet.getString("name"),
+                        resultSet.getInt("categoryID"),
+                        resultSet.getDouble("price"),
+                        resultSet.getInt("quantity"),
+                        resultSet.getString("sellerID"),
+                        resultSet.getString("status")
+                );
+                products.add(p);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection();
+        }
+
+        return products;
+    }
+
 }

@@ -60,7 +60,7 @@ public class UpdateProductController extends HttpServlet {
 
         ProductDAO productDAO = new ProductDAO();
         if (productDAO.updateProduct(product)) {
-            response.sendRedirect("ProductController?action=search");
+            response.sendRedirect("SearchProducyByUserIDController");
         } else {
             request.setAttribute("msg", "Cập nhật sản phẩm thất bại");
             request.setAttribute("product", product);

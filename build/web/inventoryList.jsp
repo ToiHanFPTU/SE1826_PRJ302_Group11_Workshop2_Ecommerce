@@ -43,11 +43,26 @@
                 color: red;
                 font-weight: bold;
             }
+            .searchZone {
+                display: flex;
+                justify-content: center;
+            }
         </style>
     </head>
 
     <body>
         <h2>📦 Full Inventory</h2>
+        <div class="top">
+            <a href="${pageContext.request.contextPath}/LogoutController">Logout</a>
+            <a href="adminPage.jsp">Back</a>
+        </div>
+        
+        <div class="searchZone">
+            <form action="InventoryController?action=search" method="post">
+                <input type="text" name="searchBox" placeholder="Search..." value="${keyWord eq null ? '' : keyWord}"/>
+                <input type="submit" value="search">
+            </form>
+        </div>
         <table>
             <thead>
                 <tr>

@@ -105,4 +105,37 @@ public class InventoryDAO extends utils {
         closeConnection();
         return list;
     }
+
+    public List<Inventory> searchInventoty(String inventoryName) {
+        String sql = "SELECT TOP (1000) [warehouseID]\n"
+                + "				  ,i.[productID]\n"
+                + "				  ,p.[name]\n"
+                + "				  ,[stockQuantity]\n"
+                + "				  ,[reorderThreshold]\n"
+                + "  FROM [ECommerceDB].[dbo].[tblInventory] i\n"
+                + "  JOIN [tblProducts] p on p.[productID] = i.[productID]\n"
+                + "  WHERE p.[name] LIKE ?";
+        List<Inventory> inventorys = new ArrayList<>();
+
+        try {
+            getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, "%" + inventoryName + "%");
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Inventory inv = new Inventory();
+                inv.setWarehouseID(resultSet.getInt("warehouseID"));
+                inv.setProductID(resultSet.getInt("productID"));
+                inv.setProductName(resultSet.getString("name"));
+                inv.setStockQuantity(resultSet.getInt("stockQuantity"));
+                inv.setReorderThreshold(resultSet.getInt("reorderThreshold"));
+                inventorys.add(inv);
+            }
+            closeConnection();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return inventorys;
+    }
 }

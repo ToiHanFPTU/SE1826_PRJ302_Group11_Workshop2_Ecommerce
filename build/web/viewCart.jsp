@@ -14,7 +14,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
     User user = (User) session.getAttribute("user");
-    if (user == null || !user.getRoleID().equalsIgnoreCase("bu")) {
+    if (user == null && !user.getRoleID().equalsIgnoreCase("bu") && !user.getRoleID().equalsIgnoreCase("se")) {
         response.sendRedirect("checkAuthorized.jsp");
         return;
     }
@@ -33,7 +33,7 @@
 </head>
 <body>
     <h2>Your Cart - <%= user.getFullName()%></h2>
-
+    <a href="SearchProductController">Back to Home</a>
     <form action="PrepareInvoiceController" method="post">
         <table border="1" cellpadding="10">
             <tr>
