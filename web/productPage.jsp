@@ -28,7 +28,7 @@
         <!-- Welcome Header -->
         <%
             User user = (User) session.getAttribute("user"); 
-            if (user == null || !user.getRoleID().equalsIgnoreCase("SE")) {
+            if (user == null || !user.getRoleID().equalsIgnoreCase("se")) {
                 response.sendRedirect("checkAuthorized.jsp");
                 return; 
             } 
