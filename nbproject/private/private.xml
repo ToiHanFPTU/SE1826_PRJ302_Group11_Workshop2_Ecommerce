@@ -3,10 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/invoiceSuccess.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/src/java/dao/InvoiceDAO.java</file>
             <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/ProductList.jsp</file>
-            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/viewInvoiceList.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/src/java/controller/product/ProductController.java</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/src/java/controller/product/SearchProductController.java</file>
             <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/src/java/controller/Log/LoginController.java</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/viewInvoiceList.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/src/java/controller/Invoice/SearchInvoiceController.java</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/productPage.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/managedeliveries.jsp</file>
+            <file>file:/D:/PRJ301/SE1826_PRJ302_Group11_Workshop2_Ecommerce/web/adminPage.jsp</file>
         </group>
     </open-files>
 </project-private>
