@@ -19,7 +19,7 @@ public class LoginController extends HttpServlet {
     private static final String ERROR = "error.jsp";
     private static final String ADMIN = "adminPage.jsp";
     private static final String PRODUCT_LIST = "ProductController?action=search";
-    private static final String INVOICE_LIST = "";
+    private static final String DELIVERY_CONTROLLER = "";
     String url = "LoginController";
 
     @Override
@@ -61,7 +61,7 @@ public class LoginController extends HttpServlet {
                         url = PRODUCT_LIST;
                         break;
                     case "DL": 
-                        url = INVOICE_LIST;
+                        url = DELIVERY_CONTROLLER;
                         break; 
                     default :
                         url = ERROR;
