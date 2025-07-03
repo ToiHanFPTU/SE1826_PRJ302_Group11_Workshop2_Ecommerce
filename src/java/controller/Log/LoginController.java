@@ -19,7 +19,7 @@ public class LoginController extends HttpServlet {
     private static final String ERROR = "error.jsp";
     private static final String ADMIN = "adminPage.jsp";
     private static final String PRODUCT_LIST = "ProductController?action=search";
-    private static final String DELIVERY_CONTROLLER = "";
+    private static final String DELIVERY_CONTROLLER = "DeliveryController?action=list";
     String url = "LoginController";
 
     @Override

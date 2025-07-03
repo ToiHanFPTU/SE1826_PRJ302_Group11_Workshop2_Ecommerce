@@ -64,14 +64,6 @@
                 🛍 Manage Product
             </button>
 
-                <button class="btn btn-outline-light menu-btn" onclick="window.location.href = 'PromotionController?action=list'">
-                    🎯 Manage Promotions
-                </button>
-
-                <button class="btn btn-outline-light menu-btn" onclick="window.location.href = 'DeliveryController?action=list'">
-                    🚚 Manage Deliveries
-                </button>
-
                 <button class="btn btn-outline-light menu-btn" onclick="window.location.href = 'LogoutController'">
                     🔓 Logout
                 </button>

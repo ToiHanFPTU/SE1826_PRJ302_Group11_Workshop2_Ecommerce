@@ -126,5 +126,36 @@ public class InvoiceDAO extends utils{
     } finally {
         closeConnection();
     }
-  }
+  } 
+    public List<Invoice> getInvoicesByStatus(String status) {
+    List<Invoice> Ilist = new ArrayList<>();
+    String sql = "SELECT i.invoiceID, i.userID, i.totalAmount, i.status, i.createdDate, " +
+                 "id.productID, id.quantity, id.price " +
+                 "FROM tblInvoices i " +
+                 "JOIN tblInvoiceDetails id ON i.invoiceID = id.invoiceID " +
+                 "WHERE i.status = ?";
+    getConnection();
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, status);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int invoiceID = rs.getInt("invoiceID");
+            String userID = rs.getString("userID");
+            float totalAmount = rs.getFloat("totalAmount");
+            Date createdDate = rs.getDate("createdDate");
+            int productID = rs.getInt("productID");
+            int quantity = rs.getInt("quantity");
+            float price = rs.getFloat("price");
+
+            Invoice invoice = new Invoice(invoiceID, userID, totalAmount, status, createdDate, productID, quantity, price);
+            Ilist.add(invoice);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        closeConnection(); // đảm bảo bạn có closeConnection() trong DAO
+    }
+    return Ilist;
+}
+
 }

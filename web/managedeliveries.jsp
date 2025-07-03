@@ -14,7 +14,7 @@
     }
 
     List<Delivery> deliveries = (List<Delivery>) request.getAttribute("deliveries");
-    List<Invoice> invoicesWithoutDelivery = (List<Invoice>) request.getAttribute("invoicesWithoutDelivery");
+    List<Invoice> invoiceList = (List<Invoice>) request.getAttribute("invoiceList");
     String message = (String) request.getAttribute("message");
     String error = (String) request.getAttribute("error");
     String searchType = (String) request.getAttribute("searchType");
@@ -382,8 +382,8 @@
                                 <label class="form-label fw-bold">Chọn hóa đơn:</label>
                                 <select name="invoiceID" class="form-select" required>
                                     <option value="">-- Chọn hóa đơn --</option>
-                                    <% if (invoicesWithoutDelivery != null && !invoicesWithoutDelivery.isEmpty()) { %>
-                                        <% for (Invoice invoice : invoicesWithoutDelivery) { %>
+                                    <% if (invoiceList != null && !invoiceList.isEmpty()) { %>
+                                        <% for (Invoice invoice : invoiceList) { %>
                                         <option value="<%= invoice.getInvoiceID() %>">
                                             HD#<%= invoice.getInvoiceID() %> - <%= invoice.getUserID() %> 
                                             (<%= formatter.format(invoice.getTotalAmount()) %>đ)

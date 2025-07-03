@@ -72,10 +72,10 @@ public class SearchInvoiceController extends HttpServlet {
         List<Invoice> invoiceList;
         if (status == null || status.equalsIgnoreCase("all")) {
             invoiceList = invoiceDAO.getInvoicesByUser(user.getUserID()); // tất cả đơn
-        } else {
+        }else {
             invoiceList = invoiceDAO.getInvoicesByUserAndStatus(user.getUserID(), status); // lọc theo trạng thái
         }
-
+         
         request.setAttribute("invoiceList", invoiceList);
         request.setAttribute("status", status); // để highlight tab nếu cần
         request.getRequestDispatcher("viewInvoiceList.jsp").forward(request, response);
