@@ -60,7 +60,7 @@ public class LoginController extends HttpServlet {
                     case "SE" :
                         url = PRODUCT_LIST;
                         break;
-                    case "DE": 
+                    case "DL": 
                         url = INVOICE_LIST;
                         break; 
                     default :
