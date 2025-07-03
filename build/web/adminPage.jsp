@@ -52,17 +52,17 @@
                     📂 Manage Categories
                 </button>
 
-                <button class="btn btn-outline-light menu-btn" onclick="window.location.href = 'SearchUserController?action=searchButton'">
-                    👥 Manage Users
-                </button>
-
-                <button class="btn btn-outline-light menu-btn" onclick="window.location.href = 'InventoryController?action=search'">
-                    👜 Manage Inventory
-                </button>
-
-                <button class="btn btn-outline-light menu-btn" onclick="window.location.href = 'ProductController?action=search'">
-                    🛍 Manage Product
-                </button>
+            <button class="btn btn-outline-light menu-btn" onclick="window.location.href='SearchUserController?action=searchButton'">
+                👥 Manage Users
+            </button>
+        
+            <button class="btn btn-outline-light menu-btn" onclick="window.location.href='InventoryController?action=search'">
+                👜 Manage Inventory
+            </button>
+            
+            <button class="btn btn-outline-light menu-btn" onclick="window.location.href='ProductController?action=search'">
+                🛍 Manage Product
+            </button>
 
                 <button class="btn btn-outline-light menu-btn" onclick="window.location.href = 'PromotionController?action=list'">
                     🎯 Manage Promotions
