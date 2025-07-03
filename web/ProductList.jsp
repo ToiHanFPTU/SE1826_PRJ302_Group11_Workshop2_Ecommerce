@@ -115,17 +115,17 @@
                             <td>${product.productID}</td>
                             <td>${product.name}</td>
                             <td><fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /></td>
-                        <td>
-                            <form action="AddCartController" method="post">
-                                <input type="hidden" name="productID" value="${product.getProductID()}">
-                                <div class="quantity-control">
-                                    <button type="button" class="decrease">-</button>
-                                    <input type="number" name="quantity" value="1" min="1" />
-                                    <button type="button" class="increase">+</button>
-                                </div>
-                                <input type="submit" value="Add to Cart">
-                            </form> 
-                        </td>
+                            <td>
+                                <form action="AddCartController" method="post">
+                                    <input type="hidden" name="productID" value="${product.getProductID()}">
+                                    <div class="quantity-control">
+                                        <button type="button" class="decrease">-</button>
+                                        <input type="number" name="quantity" value="1" min="1" />
+                                        <button type="button" class="increase">+</button>
+                                    </div>
+                                    <input type="submit" value="Add to Cart">
+                                </form> 
+                            </td>
                         </tr>
                     </c:forEach>
                  </tbody>

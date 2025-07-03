@@ -14,24 +14,25 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.Inventory;
 
-/**
- *
- * @author HP
- */
 @WebServlet(name = "SearchInventoryController", urlPatterns = {"/SearchInventoryController"})
 public class SearchInventoryController extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    InventoryDAO inventoryDAO = new InventoryDAO();
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        List<Inventory> inventorys;
         try {
-            InventoryDAO inventoryDAO = new InventoryDAO();
-            List<Inventory> inventorys = inventoryDAO.listAllInventory();
-            System.out.println("Tìm thấy " + inventorys.size() + " hàng tồn kho.");
-            for (Inventory inv : inventorys) {
-                System.out.println(inv);
+            String keyword = request.getParameter("searchBox");
+            if (keyword == null || keyword.trim().isEmpty()) {
+                System.out.println("khong tim thay ten");
+                inventorys = inventoryDAO.listAllInventory();
             }
-
+            else {
+                inventorys = inventoryDAO.searchInventoty(keyword);
+            }
             request.setAttribute("inventoryList", inventorys);
+            request.setAttribute("keyWord", keyword);
             System.out.println("Tìm thấy " + inventorys.size() + " hàng tồn kho.");
             request.getRequestDispatcher("inventoryList.jsp").forward(request, response);
         } catch (Exception e) {
@@ -40,21 +41,10 @@ public class SearchInventoryController extends HttpServlet {
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
-
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    @Override
-    public String getServletInfo() {
-        return "SearchInventoryController hiển thị danh sách hàng tồn kho.";
+        doPost(request, response);
     }
 }

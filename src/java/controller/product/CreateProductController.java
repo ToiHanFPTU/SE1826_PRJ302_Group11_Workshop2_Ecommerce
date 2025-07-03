@@ -40,7 +40,7 @@ public class CreateProductController extends HttpServlet {
             boolean success = productDAO.insertProduct(newProduct);
 
             if (success) {
-                response.sendRedirect("ProductController?action=search");
+                response.sendRedirect("SearchProducyByUserIDController");
             } else {
                 request.setAttribute("msg", "Create new product failed");
                 List<Category> categories = new CategoryDAO().listAllCategories();

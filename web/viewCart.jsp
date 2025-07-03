@@ -15,7 +15,7 @@
 
 <%
     User user = (User) session.getAttribute("user");
-    if (user == null || !user.getRoleID().equalsIgnoreCase("bu")) {
+    if (user == null && !user.getRoleID().equalsIgnoreCase("bu") && !user.getRoleID().equalsIgnoreCase("se")) {
         response.sendRedirect("checkAuthorized.jsp");
         return;
     }
