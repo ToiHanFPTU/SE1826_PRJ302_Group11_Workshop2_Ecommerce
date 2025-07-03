@@ -8,7 +8,7 @@
 
 <%
     User userLogin = (User) session.getAttribute("user");
-    if (userLogin == null || !"AD".equalsIgnoreCase(userLogin.getRoleID())) {
+    if (userLogin == null || !"DL".equalsIgnoreCase(userLogin.getRoleID())) {
         response.sendRedirect("checkAuthorized.jsp");
         return;
     }
